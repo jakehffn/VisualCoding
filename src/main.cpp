@@ -136,21 +136,18 @@ bool initOpenGL() {
 	return success;
 }
 
-void handleKeys( unsigned char key, int x, int y )
-{
+void handleKeys( unsigned char key, int x, int y ) {
 	// Toggle quad
 	if( key == 'q' ) {
 		gRenderQuad = !gRenderQuad;
 	}
 }
 
-void update()
-{
+void update() {
 	// No per frame update needed
 }
 
-void render()
-{
+void render() {
 	// Clear color buffer
 	glClear(GL_COLOR_BUFFER_BIT);
 	
@@ -178,8 +175,7 @@ void render()
 	}
 }
 
-void close()
-{
+void close() {
 	// Deallocate program
 	glDeleteProgram( gProgramID );
 
@@ -191,8 +187,7 @@ void close()
 	SDL_Quit();
 }
 
-void printLog( GLuint glComp )
-{
+void printLog( GLuint glComp ) {
     // Log length
     int infoLogLength = 0;
     int maxLength = infoLogLength;
@@ -240,8 +235,7 @@ void printLog( GLuint glComp )
 	}
 }
 
-int main( int argc, char* args[] )
-{
+int main() {
 	// Start up SDL and create window
 	if( !init() ) {
 		printf( "Failed to initialize!\n" );
