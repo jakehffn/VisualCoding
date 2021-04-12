@@ -96,7 +96,7 @@ void ShaderLoader::printLog(GLuint glComp) {
     int infoLogLength = 0;
     int maxLength = infoLogLength;
 
-	// Make sure name is shader
+	// Make sure glComp is a shader
 	if(glIsProgram(glComp)) {
 		// Get info string length
 		glGetProgramiv(glComp, GL_INFO_LOG_LENGTH, &maxLength);

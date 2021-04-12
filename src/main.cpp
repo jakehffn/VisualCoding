@@ -9,6 +9,7 @@
 
 #include "consts.h"
 #include "ShaderLoader.h"
+#include "Lin.h"
 
 bool init();
 bool initOpenGL();
@@ -18,8 +19,6 @@ void update();
 void render();
 
 void close();
-
-void printLog( GLuint glComp );
 
 SDL_Window* gWindow = NULL;
 SDL_GLContext gContext;
@@ -100,6 +99,11 @@ bool initOpenGL() {
 		success = false;
 
 	} else {
+
+
+
+
+
 		// Get vertex attribute location
 		gVertexPos2DLocation = glGetAttribLocation( gProgramID, "LVertexPos2D" );
 
@@ -171,7 +175,7 @@ void render() {
 		glDisableVertexAttribArray(gVertexPos2DLocation);
 
 		// Unbind program
-		glUseProgram(NULL);
+		glUseProgram(0);
 	}
 }
 
@@ -187,55 +191,8 @@ void close() {
 	SDL_Quit();
 }
 
-void printLog( GLuint glComp ) {
-    // Log length
-    int infoLogLength = 0;
-    int maxLength = infoLogLength;
-
-	// Make sure name is shader
-	if( glIsProgram( glComp ) ) {
-		// Get info string length
-		glGetProgramiv( glComp, GL_INFO_LOG_LENGTH, &maxLength );
-		
-		// Allocate string
-		char* infoLog = new char[ maxLength ];
-		
-		// Get info log
-		glGetProgramInfoLog( glComp, maxLength, &infoLogLength, infoLog );
-
-		if( infoLogLength > 0 ) {
-			// Print Log
-			printf( "%s\n", infoLog );
-		}
-		
-		// Deallocate string
-		delete[] infoLog;
-
-	} else if( glIsShader( glComp ) ) {
-		
-		// Get info string length
-		glGetShaderiv( glComp, GL_INFO_LOG_LENGTH, &maxLength );
-		
-		// Allocate string
-		char* infoLog = new char[ maxLength ];
-		
-		// Get info log
-		glGetShaderInfoLog( glComp, maxLength, &infoLogLength, infoLog );
-
-		if( infoLogLength > 0 ) {
-			// Print Log
-			printf( "%s\n", infoLog );
-		}
-
-		// Deallocate string
-		delete[] infoLog;
-
-	} else {
-		printf( "Name %d is not a shader or a program\n", glComp );
-	}
-}
-
-int main() {
+// Parameters necessary for SDL_Main
+int main(int argv, char** args) {
 	// Start up SDL and create window
 	if( !init() ) {
 		printf( "Failed to initialize!\n" );
