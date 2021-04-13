@@ -1,7 +1,12 @@
-#version 140
+#version 330 core
 
-out vec4 LFragment; 
+// Ouput data
+out vec3 color;
 
-void main() { 
-    LFragment = vec4( 1.0, 0.0, 0.0, 1.0 ); 
+void main()
+{
+
+	// Output color = red 
+	color = vec3(1,0,0);
+
 }

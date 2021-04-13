@@ -38,7 +38,7 @@ int main2() {
         0.0, 0.0, 0.0, 1.0
     };
 
-    lin::Mat<4, 4> matrix(entries);
+    lin::Mat<4> matrix(2);
     lin::Vec<4> testo{10, 10, 10, 1};
     testo.print();
 

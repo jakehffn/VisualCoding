@@ -26,7 +26,7 @@ SDL_GLContext gContext;
 bool gRenderQuad = true;
 
 GLuint gProgramID = 0;
-GLint gVertexPos2DLocation = -1;
+GLint gVertexPos2DLocation = 0;
 GLuint gVBO = 0;
 GLuint gIBO = 0;
 
@@ -100,42 +100,34 @@ bool initOpenGL() {
 
 	} else {
 
+		GLuint VertexArrayID;
+		glGenVertexArrays(1, &VertexArrayID);
+		glBindVertexArray(VertexArrayID);
+		
+		// Initialize clear color
+		glClearColor( 0.f, 0.f, 0.4f, 1.f );
 
+		// VBO data
+		GLfloat vertexData[] =
+		{
+			-1.0f, -1.0f, 0.0f,
+			1.0f, -1.0f, 0.0f,
+			0.0f,  1.0f, 0.0f
+		};
 
+		// IBO data
+		GLuint indexData[] = { 0, 1, 2};
 
+		// Create VBO
+		glGenBuffers( 1, &gVBO );
+		glBindBuffer( GL_ARRAY_BUFFER, gVBO );
+		glBufferData( GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW );
 
-		// Get vertex attribute location
-		gVertexPos2DLocation = glGetAttribLocation( gProgramID, "LVertexPos2D" );
-
-		if( gVertexPos2DLocation == -1 ) {
-			printf( "LVertexPos2D is not a valid glsl program variable!\n" );
-			success = false;
-
-		} else {
-			// Initialize clear color
-			glClearColor( 0.f, 0.f, 0.f, 1.f );
-
-			// VBO data
-			GLfloat vertexData[] =
-			{
-				-1.0f, -1.0f,
-				1.0f, -1.0f,
-				0.0f,  1.0f,
-			};
-
-			// IBO data
-			GLuint indexData[] = { 0, 1, 2};
-
-			// Create VBO
-			glGenBuffers( 1, &gVBO );
-			glBindBuffer( GL_ARRAY_BUFFER, gVBO );
-			glBufferData( GL_ARRAY_BUFFER, 2 * 3 * sizeof(GLfloat), vertexData, GL_STATIC_DRAW );
-
-			// Create IBO
-			glGenBuffers( 1, &gIBO );
-			glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, gIBO );
-			glBufferData( GL_ELEMENT_ARRAY_BUFFER, 3 * sizeof(GLuint), indexData, GL_STATIC_DRAW );
-		}
+		// Create IBO
+		glGenBuffers( 1, &gIBO );
+		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, gIBO );
+		glBufferData( GL_ELEMENT_ARRAY_BUFFER, 3 * sizeof(GLuint), indexData, GL_STATIC_DRAW );
+		
 	}
 	return success;
 }
@@ -161,18 +153,18 @@ void render() {
 		glUseProgram(gProgramID);
 
 		// Enable vertex position
-		glEnableVertexAttribArray(gVertexPos2DLocation);
+		glEnableVertexAttribArray(0);
 
 		// Set vertex data
 		glBindBuffer(GL_ARRAY_BUFFER, gVBO);
-		glVertexAttribPointer(gVertexPos2DLocation, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), NULL);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
 		// Set index data and render
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIBO);
-		glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, NULL);
+		glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, (void*)0);
 
 		// Disable vertex position
-		glDisableVertexAttribArray(gVertexPos2DLocation);
+		glDisableVertexAttribArray(0);
 
 		// Unbind program
 		glUseProgram(0);
