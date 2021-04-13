@@ -54,6 +54,18 @@ double lin::Vec<T>::dot(Vec<T> so) {
 }
 
 template <int T>
+double lin::Vec<T>::magnitude() {
+
+    sumOfSquares = 0;
+
+    for (int xx = 0; xx < T; xx++) {
+        sumOfSquare += comps_[xx]*comps_[xx];
+    }
+
+    return sqrt(sumOfSquares);
+}
+
+template <int T>
 lin::Vec<T>& lin::Vec<T>::operator-(const Vec<T>& so) {
 
     for (int xx = 0; xx < T; xx++) {
@@ -224,6 +236,12 @@ lin::Mat<T>& lin::Mat<T>::swap(const Mat<T>& toCopy) {
     return *this;
 }
 
+// Generate normalized matrix
+template <int T>
+lin::Vec<T>& lin::normalize(Vec<T>& v) {
+
+    
+}
 
 // Generate translation matrix for translation t
 lin::Mat<4>& lin::translate(Mat<4>& m, Vec<3> t) {
@@ -293,6 +311,11 @@ lin::Mat<4>& lin::project(Mat<4>& m, Vec<4> p) {
         0, 0, ((2*fp*np) / nmf), 0
     };
 
+    return m;
+}
+
+lin::Mat<4>& lin::lookAt(Mat<4>& m, const Vec<3> eye, const Vec<3> center, const Vec<3> up) {
+    m = Mat<4>(1);
     return m;
 }
 

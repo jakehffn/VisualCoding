@@ -184,7 +184,7 @@ void close() {
 }
 
 // Parameters necessary for SDL_Main
-int main(int argv, char** args) {
+int main2(int argv, char** args) {
 	// Start up SDL and create window
 	if( !init() ) {
 		printf( "Failed to initialize!\n" );

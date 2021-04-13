@@ -2,7 +2,7 @@
 
 #include "Lin.h"
 
-int main2() {
+int main() {
     printf("Testing Instantiation\n");
     lin::Vec<3> testVec1{3.0, 5.0, 4.0};
     lin::Vec<3> testVec2{2.0, 1.0, 2.0};
@@ -44,7 +44,7 @@ int main2() {
 
     printf("Printing matrix\n");
     for (int xx = 0; xx < 4; xx++) {
-        matrix.rowVec(xx).print();
+        (matrix.rowVec(xx)-matrix.rowVec(xx)-matrix.rowVec(xx)).print();
     }
 
     (matrix*testo).print();

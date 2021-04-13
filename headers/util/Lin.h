@@ -13,11 +13,13 @@ namespace lin {
     template<int T>
     class Mat;
 
+    Vec<T>& normalize(Vec<T>&);
+
     Mat<4>& translate(Mat<4>&, Vec<3>);
     Mat<4>& scale(Mat<4>&, Vec<3>);
     Mat<4>& rotate(Mat<4>&, Vec<3>);
     Mat<4>& project(Mat<4>&, Vec<4>);
-
+    Mat<4>& lookAt(Mat<4>&, const Vec<3>, const Vec<3>, const Vec<3>);
 
 }
 
@@ -33,9 +35,12 @@ public:
 
     Vec<T> cross(Vec<T>);
     double dot(Vec<T>);
+    double magnitude();
+
     Vec<T>& operator-(const Vec<T>&);
     Vec<T> operator*(double);
     Vec<T>& operator=(const Vec<T>&);
+
     double get(int) const;
     void print() const;
 
