@@ -54,6 +54,16 @@ double lin::Vec<T>::dot(Vec<T> so) {
 }
 
 template <int T>
+lin::Vec<T>& lin::Vec<T>::operator-(const Vec<T>& so) {
+
+    for (int xx = 0; xx < T; xx++) {
+        comps_[xx] -= so.get(xx);
+    }
+
+    return *this;
+}
+
+template <int T>
 lin::Vec<T> lin::Vec<T>::operator*(double scalar) {
 
     double* comps = new double[T];

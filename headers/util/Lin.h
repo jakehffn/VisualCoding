@@ -33,6 +33,7 @@ public:
 
     Vec<T> cross(Vec<T>);
     double dot(Vec<T>);
+    Vec<T>& operator-(const Vec<T>&);
     Vec<T> operator*(double);
     Vec<T>& operator=(const Vec<T>&);
     double get(int) const;
