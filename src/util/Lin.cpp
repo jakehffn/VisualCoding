@@ -236,11 +236,19 @@ lin::Mat<T>& lin::Mat<T>::swap(const Mat<T>& toCopy) {
     return *this;
 }
 
-// Generate normalized matrix
+// Generate normalized vector
 template <int T>
 lin::Vec<T>& lin::normalize(Vec<T>& v) {
 
-    
+    double mag = v.magnitude();
+    double* newComps = new double[T];
+
+    for (int xx = 0; xx < T; xx++) {
+        newComps[xx] = v.get(xx)/mag;
+    }
+
+    v = Vec<T>{newCopms};
+    return v;
 }
 
 // Generate translation matrix for translation t
