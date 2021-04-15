@@ -9,7 +9,9 @@
 
 #include "consts.h"
 #include "ShaderLoader.h"
-#include "Lin.h"
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 bool init();
 bool initOpenGL();
@@ -107,6 +109,8 @@ bool initOpenGL() {
 		// Initialize clear color
 		glClearColor( 0.f, 0.f, 0.4f, 1.f );
 
+
+
 		// VBO data
 		GLfloat vertexData[] =
 		{
@@ -184,7 +188,7 @@ void close() {
 }
 
 // Parameters necessary for SDL_Main
-int main2(int argv, char** args) {
+int main(int argv, char** args) {
 	// Start up SDL and create window
 	if( !init() ) {
 		printf( "Failed to initialize!\n" );

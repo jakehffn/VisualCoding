@@ -9,9 +9,9 @@ OBJS := $(wildcard $(SRC_DIR)/*.cpp) $(foreach dir,$(SRC_SUB_DIRS),$(wildcard $(
 CC = g++
 
 HEADER_DIR = headers
-HEADER_SUB_DIRS = util
+HEADER_SUB_DIRS = util libs
 #INCLUDE_PATHS specifies the additional include paths we'll need
-INCLUDE_PATHS = -I.\$(HEADER_DIR) -I.\$(foreach dir,$(HEADER_SUB_DIRS),$(HEADER_DIR)\$(dir)) -IC:\mingw_dev_lib\SDL2\include\SDL2 -IC:\mingw_dev_lib\glew-2.1.0\include
+INCLUDE_PATHS = -I.\$(HEADER_DIR) $(foreach dir,$(HEADER_SUB_DIRS),-I.\$(HEADER_DIR)\$(dir)) -IC:\mingw_dev_lib\SDL2\include\SDL2 -IC:\mingw_dev_lib\glew-2.1.0\include 
 
 #LIBRARY_PATHS specifies the additional library paths we'll need
 LIBRARY_PATHS = -LC:\mingw_dev_lib\SDL2\lib -LC:\mingw_dev_lib\glew-2.1.0\lib\Release\Win32
