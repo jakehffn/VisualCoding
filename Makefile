@@ -3,7 +3,9 @@ SRC_DIR = src
 
 #SRC_SUB_DIRS specifies sub directories in source
 SRC_SUB_DIRS = util
-OBJS := $(wildcard $(SRC_DIR)/*.cpp) $(foreach dir,$(SRC_SUB_DIRS),$(wildcard $(SRC_DIR)/$(dir)/*.cpp))
+VPROGRAM_DIR = vprograms
+VPROGRAM_SUB_DIRS = OpenGLTutorial
+OBJS := $(wildcard $(SRC_DIR)/*.cpp) $(foreach dir,$(VPROGRAM_SUB_DIRS),$(wildcard $(SRC_DIR)/$(VPROGRAM_DIR)/$(dir)/*.cpp)) $(foreach dir,$(SRC_SUB_DIRS),$(wildcard $(SRC_DIR)/$(dir)/*.cpp)) 
 
 #CC specifies which compiler we're using
 CC = g++
@@ -29,5 +31,4 @@ OBJ_NAME = graphics
 
 #This is the target that compiles our executable
 all : $(OBJS)
-	$(info $(OBJS))
 	$(CC) $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
