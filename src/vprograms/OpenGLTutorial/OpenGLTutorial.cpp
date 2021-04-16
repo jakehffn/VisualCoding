@@ -27,8 +27,8 @@ bool OpenGLTutorial::init(SDL_Window* gWindow) {
 	GLuint vertexShader = glCreateShader( GL_VERTEX_SHADER );
 	GLuint fragmentShader = glCreateShader( GL_FRAGMENT_SHADER );
 
-	std::string vertexPath = "./src/shaders/vertexShader.glsl";
-	std::string fragmentPath = "./src/shaders/fragmentShader.glsl";
+	std::string vertexPath = "./src/vprograms/OpenGLTutorial/shaders/vertexShader.glsl";
+	std::string fragmentPath = "./src/vprograms/OpenGLTutorial/shaders/fragmentShader.glsl";
 
 	gProgramID = LoadShaders(vertexPath.c_str(), fragmentPath.c_str());
 
