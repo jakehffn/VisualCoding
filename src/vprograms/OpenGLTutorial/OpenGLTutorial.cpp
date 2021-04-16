@@ -7,7 +7,8 @@
 
 #include "Shader.hpp"
 #include "consts.h"
-#include <VisualPrograms.h>
+#include "VisualPrograms.h"
+#include "Controls.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -32,6 +33,8 @@ bool OpenGLTutorial::init(SDL_Window* gWindow) {
 
 	gProgramID = LoadShaders(vertexPath.c_str(), fragmentPath.c_str());
 
+    setWindow(gWindow);
+
     return true;
 }
 
@@ -39,8 +42,7 @@ void OpenGLTutorial::run() {
     // Main loop flag
     bool quit = false;
 
-    // Event handler
-    SDL_Event e;
+    SDL_ShowCursor(SDL_DISABLE);
     
     // Enable text input
     SDL_StartTextInput();
@@ -58,22 +60,6 @@ void OpenGLTutorial::run() {
 
     // Get a handle for our "MVP" uniform
     GLuint MatrixID = glGetUniformLocation(gProgramID, "MVP");
-
-    // Projection matrix : 45� Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-    glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float) render_consts::SCREEN_WIDTH / (float) render_consts::SCREEN_HEIGHT, 0.1f, 100.0f);
-    // Or, for an ortho camera :
-    // glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
-    
-    // Camera matrix
-    glm::mat4 View       = glm::lookAt(
-                                glm::vec3(4,3,3), // Camera is at (4,3,3), in World Space
-                                glm::vec3(0,0,0), // and looks at the origin
-                                glm::vec3(0,1,0)  // Head is up (set to 0,-1,0 to look upside-down)
-                        );
-    // Model matrix : an identity matrix (model will be at the origin)
-    glm::mat4 Model      = glm::mat4(1.0f);
-    // Our ModelViewProjection : multiplication of our 3 matrices
-    glm::mat4 MVP        = Projection * View * Model; // Remember, matrix multiplication is the other way around
 
     static const GLfloat g_vertex_buffer_data[] = {
         -1.0f,-1.0f,-1.0f, // triangle 1 : begin
@@ -165,20 +151,12 @@ void OpenGLTutorial::run() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
     
     // While application is running
-    while( !quit ) {
-        // Handle events on queue
-        while( SDL_PollEvent( &e ) != 0 ) {
-            // User requests quit
-            if( e.type == SDL_QUIT ) {
-                quit = true;
-            }
-            // Handle keypress with current mouse position
-            else if( e.type == SDL_TEXTINPUT ) {
-                int x = 0, y = 0;
-                SDL_GetMouseState( &x, &y );
-                //handleKeys( e.text.text[ 0 ], x, y );
-            }
-        }
+    while( !computeMatricesFromInputs() ) {
+
+        glm::mat4 ProjectionMatrix = getProjectionMatrix();
+        glm::mat4 ViewMatrix = getViewMatrix();
+        glm::mat4 ModelMatrix = glm::mat4(1.0);
+        glm::mat4 MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
 
         // Clear the screen
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
