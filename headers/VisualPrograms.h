@@ -3,6 +3,8 @@
 #include <GL/glu.h>
 #include <SDL.h>
 
+#include "Controls.hpp"
+
 class VisualProgram {
 public:
     virtual bool init(SDL_Window* gWindow) = 0;
@@ -19,4 +21,6 @@ public:
 private:
     GLuint gProgramID = 0;
     SDL_Window* gWindow = NULL;
+
+    Controls* controls;
 };

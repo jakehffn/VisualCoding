@@ -22,8 +22,7 @@ OpenGLTutorial::~OpenGLTutorial() {
 bool OpenGLTutorial::init(SDL_Window* gWindow) {
 
     this->gWindow = gWindow;
-
-    bool success = true;
+    this->controls = new Controls(gWindow);
 
 	GLuint vertexShader = glCreateShader( GL_VERTEX_SHADER );
 	GLuint fragmentShader = glCreateShader( GL_FRAGMENT_SHADER );
@@ -32,8 +31,6 @@ bool OpenGLTutorial::init(SDL_Window* gWindow) {
 	std::string fragmentPath = "./src/vprograms/OpenGLTutorial/shaders/fragmentShader.glsl";
 
 	gProgramID = LoadShaders(vertexPath.c_str(), fragmentPath.c_str());
-
-    setWindow(gWindow);
 
     return true;
 }
@@ -151,10 +148,10 @@ void OpenGLTutorial::run() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
     
     // While application is running
-    while( !computeMatricesFromInputs() ) {
+    while(!controls->update()) {
 
-        glm::mat4 ProjectionMatrix = getProjectionMatrix();
-        glm::mat4 ViewMatrix = getViewMatrix();
+        glm::mat4 ProjectionMatrix = controls->getProjectionMatrix();
+        glm::mat4 ViewMatrix = controls->getViewMatrix();
         glm::mat4 ModelMatrix = glm::mat4(1.0);
         glm::mat4 MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
 
@@ -197,7 +194,7 @@ void OpenGLTutorial::run() {
         glDisableVertexAttribArray(0);
 
         // Update screen
-			SDL_GL_SwapWindow( gWindow );
+		SDL_GL_SwapWindow( gWindow );
     }
 
     SDL_StopTextInput();
