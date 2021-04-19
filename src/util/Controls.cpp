@@ -40,16 +40,13 @@ glm::mat4 Controls::getProjectionMatrix(){
 
 bool Controls::update(){
 
-	// Compute time difference between current and last frame
 	currentTime = SDL_GetTicks();
-
-    // Get Seconds between
+    // Change in time since last frame
 	deltaTime = float(currentTime - lastTime)/1000.0f;
 
     getInputs();
     applyInputs();
 
-	// For the next frame, the "last time" will be "now"
 	lastTime = currentTime;
 
     return quit;
@@ -61,7 +58,7 @@ void Controls::getInputs() {
 
     // Handle events on queue
     while( SDL_PollEvent( &e ) != 0 ) {
-        // User requests quit
+        
         if( e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE) {
 
             quit = true;
@@ -154,11 +151,10 @@ void Controls::applyInputs() {
         position -= glm::vec3(0, 1, 0) * deltaTime * speed;
     }
 
-	float FoV = initialFoV;// - 5 * glfwGetMouseWheel(); // Now GLFW 3 requires setting up a callback for this. It's a bit too complicated for this beginner's tutorial, so it's disabled instead.
+	float FoV = initialFoV;
 
-	// Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-	this->projectionMatrix = glm::perspective(glm::radians(FoV), 4.0f / 3.0f, 0.1f, 100.0f);
-	// Camera matrix
+	this->projectionMatrix = glm::perspective(glm::radians(FoV), float(render_consts::SCREEN_WIDTH)/float(render_consts::SCREEN_HEIGHT), 0.1f, 100.0f);
+
 	this->viewMatrix = glm::lookAt(
 		position,           // Camera is here
 		position+direction, // and looks here : at the same position, plus "direction"
