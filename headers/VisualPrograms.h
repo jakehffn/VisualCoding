@@ -3,7 +3,7 @@
 #include <GL/glu.h>
 #include <SDL.h>
 
-#include "Camera.hpp"
+#include "Camera.h"
 #include "UserCameraController.h"
 #include "Clock.h"
 

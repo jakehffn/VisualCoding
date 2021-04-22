@@ -6,7 +6,7 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 
-#include "Shader.hpp"
+#include "Shader.h"
 #include "consts.h"
 #include "VisualPrograms.h"
 
@@ -16,7 +16,7 @@
 OpenGLTutorial::~OpenGLTutorial() {
 
     // Deallocate program
-	glDeleteProgram( gProgramID );
+    glDeleteProgram( gProgramID );
 }
 
 bool OpenGLTutorial::init(SDL_Window* window) {
@@ -29,13 +29,13 @@ bool OpenGLTutorial::init(SDL_Window* window) {
     this->controller = new UserCameraController(window, clock, input);
     this->camera = new Camera(window, controller);
 
-	GLuint vertexShader = glCreateShader( GL_VERTEX_SHADER );
-	GLuint fragmentShader = glCreateShader( GL_FRAGMENT_SHADER );
+    GLuint vertexShader = glCreateShader( GL_VERTEX_SHADER );
+    GLuint fragmentShader = glCreateShader( GL_FRAGMENT_SHADER );
 
-	std::string vertexPath = "./src/vprograms/OpenGLTutorial/shaders/vertexShader.glsl";
-	std::string fragmentPath = "./src/vprograms/OpenGLTutorial/shaders/fragmentShader.glsl";
+    std::string vertexPath = "./src/vprograms/OpenGLTutorial/shaders/vertexShader.glsl";
+    std::string fragmentPath = "./src/vprograms/OpenGLTutorial/shaders/fragmentShader.glsl";
 
-	gProgramID = LoadShaders(vertexPath.c_str(), fragmentPath.c_str());
+    gProgramID = LoadShaders(vertexPath.c_str(), fragmentPath.c_str());
 
     return true;
 }
@@ -204,7 +204,7 @@ void OpenGLTutorial::run() {
         glDisableVertexAttribArray(0);
 
         // Update screen
-		SDL_GL_SwapWindow( window );
+        SDL_GL_SwapWindow( window );
     }
 
     SDL_StopTextInput();
