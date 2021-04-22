@@ -1,19 +1,4 @@
-#include <string>
-#include <iostream>
-
-// GLEW must come before OpenGL
-#include <gl\glew.h>
-#include <SDL.h>
-#include <SDL_opengl.h>
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-
-#include "Shader.h"
-#include "consts.h"
-#include "VisualPrograms.h"
-#include "UserCameraController.h"
-#include "PathCameraController.h"
+#include "OpenGLTutorial.h"
 
 OpenGLTutorial::~OpenGLTutorial() {
 

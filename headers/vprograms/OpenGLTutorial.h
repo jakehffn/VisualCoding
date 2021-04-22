@@ -1,4 +1,22 @@
-#include "VisualPrograms.h"
+#pragma once
+
+#include "VisualProgram.h"
+
+#include <string>
+#include <iostream>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+#include "Shader.h"
+#include "consts.h"
+
+#include "Camera.h"
+#include "UserCameraController.h"
+#include "Clock.h"
+
+#include "UserCameraController.h"
+#include "PathCameraController.h"
 
 class OpenGLTutorial : public VisualProgram {
 public:

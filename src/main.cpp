@@ -7,7 +7,9 @@
 #include <SDL.h>
 
 #include "consts.h"
-#include "VisualPrograms.h"
+#include "VisualProgram.h"
+
+#include "OpenGLTutorial.h"
 
 bool init();
 void eventHandler();
