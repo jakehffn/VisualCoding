@@ -12,14 +12,13 @@ void PathCameraController::update(glm::vec3& pos, glm::vec3& dir, glm::vec3& rig
     float deltaTime = clock->getDeltaTime();
     timePassed += deltaTime*0.001f;
 
-    float circleSize = 10.0f;
-    float xOffset = 0.0f;
-    float yOffset = 5.0f;
-    float zOffset = -15.0f;
+    glm::vec3 circleCenter(0, 5, 0);
+    float circleRadius = 10.0f;
 
-    pos = circleSize * glm::vec3(
-        sin(timePassed), 0.0f, cos(timePassed)
-    ) + glm::vec3 (xOffset, yOffset , zOffset);
+    pos = circleRadius * glm::vec3(sin(timePassed), 0.0f, cos(timePassed)); 
+    pos += glm::vec3 (circleCenter.x, circleCenter.y , circleCenter.z);
+
+    horizontalAngle = timePassed + 3.14f;
 
     dir = glm::vec3(
 		cos(verticalAngle) * sin(horizontalAngle), 
