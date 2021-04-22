@@ -1,6 +1,6 @@
 #include "Input.h"
 
-int* Input::getInputs() {
+void Input::update() {
     
     SDL_GetMouseState(&inputs[input_consts::XPOS], &inputs[input_consts::YPOS]);
 
@@ -40,6 +40,9 @@ int* Input::getInputs() {
         } 
     }
 
+}
+
+int* Input::getInputs() {
     return inputs;
 } 
 

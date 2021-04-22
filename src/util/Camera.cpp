@@ -26,8 +26,8 @@ void Camera::update() {
 
 	this->viewMatrix = glm::lookAt(
 		position,           // Camera is here
-		position+direction, // and looks here : at the same position, plus "direction"
-		glm::cross(right, direction)                  // Head is up (set to 0,-1,0 to look upside-down)
+		position + direction, // and looks here : at the same position, plus "direction"
+		glm::cross(right, direction) // Head is up (set to 0,-1,0 to look upside-down)
 	);
 }
 

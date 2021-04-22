@@ -6,12 +6,14 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "Shader.h"
 #include "consts.h"
 #include "VisualPrograms.h"
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include "UserCameraController.h"
+#include "PathCameraController.h"
 
 OpenGLTutorial::~OpenGLTutorial() {
 
@@ -26,7 +28,8 @@ bool OpenGLTutorial::init(SDL_Window* window) {
     this->clock = new Clock();
     this->input = new Input();
 
-    this->controller = new UserCameraController(window, clock, input);
+    // this->controller = new UserCameraController(window, clock, input);
+    this->controller = new PathCameraController(window, clock);
     this->camera = new Camera(window, controller);
 
     GLuint vertexShader = glCreateShader( GL_VERTEX_SHADER );
@@ -41,16 +44,11 @@ bool OpenGLTutorial::init(SDL_Window* window) {
 }
 
 void OpenGLTutorial::run() {
-    // Main loop flag
-    bool quit = false;
-
-    SDL_ShowCursor(SDL_DISABLE);
     
     // Enable text input
     SDL_StartTextInput();
 
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
-
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
@@ -152,13 +150,12 @@ void OpenGLTutorial::run() {
     glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
 
-    
-
     // While application is running
     while(!input->quitProgram()) {
 
         clock->tick();
         camera->update();
+        input->update();
 
         glm::mat4 ProjectionMatrix = camera->getProjectionMatrix();
         glm::mat4 ViewMatrix = camera->getViewMatrix();
@@ -166,7 +163,7 @@ void OpenGLTutorial::run() {
         glm::mat4 MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
 
         // Clear the screen
-        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Use our shader
         glUseProgram(gProgramID);
@@ -204,7 +201,7 @@ void OpenGLTutorial::run() {
         glDisableVertexAttribArray(0);
 
         // Update screen
-        SDL_GL_SwapWindow( window );
+        SDL_GL_SwapWindow(window);
     }
 
     SDL_StopTextInput();

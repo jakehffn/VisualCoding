@@ -6,6 +6,7 @@
 
 class Input {
 public:
+    void update();
     int* getInputs();
     bool quitProgram();
 

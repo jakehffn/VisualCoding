@@ -2,6 +2,8 @@
 
 UserCameraController::UserCameraController(SDL_Window* window, Clock* clock, Input* input) {
 
+    SDL_ShowCursor(SDL_DISABLE);
+
     this->clock = clock;
     this->window = window;
 
