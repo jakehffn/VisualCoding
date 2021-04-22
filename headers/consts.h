@@ -1,6 +1,6 @@
 #pragma once
 
-#include <bitset>
+#include <GL/gl.h>
 
 namespace render_consts {
     //Screen dimension constants
@@ -31,4 +31,48 @@ namespace input_consts {
 
     static const float MOUSE_SPEED = 0.005f;
     static const float KEY_SPEED = 0.005f;
+}
+
+namespace objects {
+    
+    static const int cubeSize = 108;
+
+    static const GLfloat cube[] = {
+        -1.0f,-1.0f,-1.0f,
+        -1.0f,-1.0f, 1.0f,
+        -1.0f, 1.0f, 1.0f,
+        1.0f, 1.0f,-1.0f,
+        -1.0f,-1.0f,-1.0f,
+        -1.0f, 1.0f,-1.0f,
+        1.0f,-1.0f, 1.0f,
+        -1.0f,-1.0f,-1.0f,
+        1.0f,-1.0f,-1.0f,
+        1.0f, 1.0f,-1.0f,
+        1.0f,-1.0f,-1.0f,
+        -1.0f,-1.0f,-1.0f,
+        -1.0f,-1.0f,-1.0f,
+        -1.0f, 1.0f, 1.0f,
+        -1.0f, 1.0f,-1.0f,
+        1.0f,-1.0f, 1.0f,
+        -1.0f,-1.0f, 1.0f,
+        -1.0f,-1.0f,-1.0f,
+        -1.0f, 1.0f, 1.0f,
+        -1.0f,-1.0f, 1.0f,
+        1.0f,-1.0f, 1.0f,
+        1.0f, 1.0f, 1.0f,
+        1.0f,-1.0f,-1.0f,
+        1.0f, 1.0f,-1.0f,
+        1.0f,-1.0f,-1.0f,
+        1.0f, 1.0f, 1.0f,
+        1.0f,-1.0f, 1.0f,
+        1.0f, 1.0f, 1.0f,
+        1.0f, 1.0f,-1.0f,
+        -1.0f, 1.0f,-1.0f,
+        1.0f, 1.0f, 1.0f,
+        -1.0f, 1.0f,-1.0f,
+        -1.0f, 1.0f, 1.0f,
+        1.0f, 1.0f, 1.0f,
+        -1.0f, 1.0f, 1.0f,
+        1.0f,-1.0f, 1.0f
+    };
 }

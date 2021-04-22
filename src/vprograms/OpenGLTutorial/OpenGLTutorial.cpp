@@ -46,52 +46,15 @@ void OpenGLTutorial::run() {
     // Get a handle for our "MVP" uniform
     GLuint MatrixID = glGetUniformLocation(gProgramID, "MVP");
 
-    static const GLfloat g_vertex_buffer_data[] = {
-        -1.0f,-1.0f,-1.0f, // triangle 1 : begin
-        -1.0f,-1.0f, 1.0f,
-        -1.0f, 1.0f, 1.0f, // triangle 1 : end
-        1.0f, 1.0f,-1.0f, // triangle 2 : begin
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f,-1.0f, // triangle 2 : end
-        1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f,-1.0f,
-        1.0f,-1.0f,-1.0f,
-        1.0f, 1.0f,-1.0f,
-        1.0f,-1.0f,-1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f,-1.0f,
-        1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-        -1.0f,-1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f,-1.0f,-1.0f,
-        1.0f, 1.0f,-1.0f,
-        1.0f,-1.0f,-1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f,-1.0f,
-        -1.0f, 1.0f,-1.0f,
-        1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f
-    };
+    GLfloat g_vertex_buffer_data[objects::cubeSize];
+    std::copy(objects::cube, objects::cube + objects::cubeSize, g_vertex_buffer_data);
 
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
-    // One color for each vertex. They were generated randomly.
-    static const GLfloat g_color_buffer_data[] = {
+    GLfloat g_color_buffer_data[] = {
         0.583f,  0.771f,  0.014f,
         0.609f,  0.115f,  0.436f,
         0.327f,  0.483f,  0.844f,
@@ -130,6 +93,20 @@ void OpenGLTutorial::run() {
         0.982f,  0.099f,  0.879f
     };
 
+    // for (int xx = 0; xx < 108 / 9; xx++) {
+    //     int triangle = 9 * xx;
+    //     if (xx % 2 == 0) {
+    //         for (int yy = 0; yy < 9; yy++) {
+    //             g_color_buffer_data[triangle + yy] = 0.0f;
+    //         }
+    //     } else {
+    //         for (int yy = 0; yy < 9; yy++) {
+    //             g_color_buffer_data[triangle + yy] = 1.0f;
+    //         }
+    //     }
+        
+    // }
+
     GLuint colorbuffer;
     glGenBuffers(1, &colorbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
@@ -145,6 +122,7 @@ void OpenGLTutorial::run() {
         glm::mat4 ProjectionMatrix = camera->getProjectionMatrix();
         glm::mat4 ViewMatrix = camera->getViewMatrix();
         glm::mat4 ModelMatrix = glm::mat4(1.0);
+
         glm::mat4 MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
 
         // Clear the screen
@@ -190,5 +168,4 @@ void OpenGLTutorial::run() {
     }
 
     SDL_StopTextInput();
-
 }
