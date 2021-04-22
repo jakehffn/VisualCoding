@@ -13,7 +13,7 @@ bool init();
 void eventHandler();
 void close();
 
-SDL_Window* gWindow = NULL;
+SDL_Window* window = NULL;
 SDL_GLContext gContext;
 VisualProgram* program;
 
@@ -31,14 +31,14 @@ bool init() {
 		SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 1 );
 		SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
 
-		gWindow = SDL_CreateWindow( "visualCoding", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, render_consts::SCREEN_WIDTH, render_consts::SCREEN_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN );
+		window = SDL_CreateWindow( "visualCoding", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, render_consts::SCREEN_WIDTH, render_consts::SCREEN_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN );
 
-		if( gWindow == NULL ) {
+		if( window == NULL ) {
 			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
 			success = false;
 
 		} else {
-			gContext = SDL_GL_CreateContext( gWindow );
+			gContext = SDL_GL_CreateContext( window );
 
 			if( gContext == NULL ) {
 				printf( "SDL: OpenGL context could not be created!\nSDL Error: %s\n", SDL_GetError() );
@@ -55,7 +55,7 @@ bool init() {
 					printf( "SDL: Warning: Unable to set VSync!\nSDL Error: %s\n", SDL_GetError() );
 				}
 
-				if( !program->init(gWindow) ) {
+				if( !program->init(window) ) {
 					printf( "Unable to init program!\n" );
 					success = false;
 				}
@@ -69,8 +69,8 @@ bool init() {
 void close() {
 
 	// Destroy window	
-	SDL_DestroyWindow( gWindow );
-	gWindow = NULL;
+	SDL_DestroyWindow( window );
+	window = NULL;
 
 	// Quit SDL subsystems
 	SDL_Quit();

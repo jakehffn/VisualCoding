@@ -3,24 +3,28 @@
 #include <GL/glu.h>
 #include <SDL.h>
 
-#include "Controls.hpp"
+#include "Camera.hpp"
+#include "UserCameraController.h"
+#include "Clock.h"
 
 class VisualProgram {
 public:
-    virtual bool init(SDL_Window* gWindow) = 0;
+    virtual bool init(SDL_Window* window) = 0;
     virtual void run() = 0;
 };
 
 class OpenGLTutorial : public VisualProgram {
 public:
     ~OpenGLTutorial();
-    bool init(SDL_Window* gWindow);
+    bool init(SDL_Window* window);
     void run();
-    void eventHandler(SDL_Event e);
     
 private:
     GLuint gProgramID = 0;
-    SDL_Window* gWindow = NULL;
+    SDL_Window* window = NULL;
 
-    Controls* controls;
+    Clock* clock;
+    Input* input;
+    Camera* camera;
+    CameraController* controller;
 };

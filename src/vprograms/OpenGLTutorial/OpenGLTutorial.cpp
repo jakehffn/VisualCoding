@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 
 // GLEW must come before OpenGL
 #include <gl\glew.h>
@@ -8,7 +9,6 @@
 #include "Shader.hpp"
 #include "consts.h"
 #include "VisualPrograms.h"
-#include "Controls.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -19,10 +19,15 @@ OpenGLTutorial::~OpenGLTutorial() {
 	glDeleteProgram( gProgramID );
 }
 
-bool OpenGLTutorial::init(SDL_Window* gWindow) {
+bool OpenGLTutorial::init(SDL_Window* window) {
 
-    this->gWindow = gWindow;
-    this->controls = new Controls(gWindow);
+    this->window = window;
+
+    this->clock = new Clock();
+    this->input = new Input();
+
+    this->controller = new UserCameraController(window, clock, input);
+    this->camera = new Camera(window, controller);
 
 	GLuint vertexShader = glCreateShader( GL_VERTEX_SHADER );
 	GLuint fragmentShader = glCreateShader( GL_FRAGMENT_SHADER );
@@ -146,12 +151,17 @@ void OpenGLTutorial::run() {
     glGenBuffers(1, &colorbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
-    
-    // While application is running
-    while(!controls->update()) {
 
-        glm::mat4 ProjectionMatrix = controls->getProjectionMatrix();
-        glm::mat4 ViewMatrix = controls->getViewMatrix();
+    
+
+    // While application is running
+    while(!input->quitProgram()) {
+
+        clock->tick();
+        camera->update();
+
+        glm::mat4 ProjectionMatrix = camera->getProjectionMatrix();
+        glm::mat4 ViewMatrix = camera->getViewMatrix();
         glm::mat4 ModelMatrix = glm::mat4(1.0);
         glm::mat4 MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
 
@@ -194,13 +204,9 @@ void OpenGLTutorial::run() {
         glDisableVertexAttribArray(0);
 
         // Update screen
-		SDL_GL_SwapWindow( gWindow );
+		SDL_GL_SwapWindow( window );
     }
 
     SDL_StopTextInput();
-
-}
-
-void OpenGLTutorial::eventHandler(SDL_Event e) {
 
 }
