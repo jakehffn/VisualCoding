@@ -1,4 +1,4 @@
-#include "Camera.hpp"
+#include "Camera.h"
 
 Camera::Camera(SDL_Window* window, CameraController* controller) {
 
