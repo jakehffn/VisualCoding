@@ -1,7 +1,7 @@
 #include "Clock.h"
 
 Clock::Clock() :
-    currentFrame{ SDL_GetPerformanceCounter() }, lastFrame{ 0 }, deltaTime{ 0 } {}
+    currentFrame{ SDL_GetPerformanceCounter() }, lastFrame{ 0 }, deltaTime{ 0 }, cumulativeTime{ 0 } {}
 
 double Clock::tick() {
     
