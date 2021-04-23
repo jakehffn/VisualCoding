@@ -6,6 +6,7 @@ class Clock {
 public:
     Clock();
     double getDeltaTime();
+    double getCumulativeTime();
     double tick();
 
 private:
@@ -13,4 +14,5 @@ private:
     Uint64 lastFrame;
 
     double deltaTime;
+    double cumulativeTime;
 };

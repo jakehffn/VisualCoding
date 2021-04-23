@@ -13,13 +13,20 @@ bool MultipleObjects::init(SDL_Window* window) {
     this->input = new Input();
 
     // this->controller = new UserCameraController(window, clock, input);
-    this->controller = new PathCameraController(window, clock);
+    CirclePath* path = new CirclePath(glm::vec3(0), 10, 10, 0.001);
+
+    this->controller = new PathCameraController(window, clock, path);
     this->camera = new Camera(window, controller);
 
     std::string vertexPath = "./src/vprograms/MultipleObjects/shaders/vertexShader.glsl";
     std::string fragmentPath = "./src/vprograms/MultipleObjects/shaders/fragmentShader.glsl";
 
     programID = LoadShaders(vertexPath.c_str(), fragmentPath.c_str());
+
+    return true;
+}
+
+void MultipleObjects::run() {
 
     // Enable text input
     SDL_StartTextInput();
@@ -29,11 +36,6 @@ bool MultipleObjects::init(SDL_Window* window) {
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
-
-    return true;
-}
-
-void MultipleObjects::run() {
     
     // Get a handle for our "MVP" uniform
     GLuint MatrixID = glGetUniformLocation(programID, "MVP");

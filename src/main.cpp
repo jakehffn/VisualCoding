@@ -118,7 +118,7 @@ int main(int argv, char** args) {
 	// Start up SDL and create window
 	if( !init() ) {
 		
-		printf( "Failed to initialize!\n" );
+		printf("Failed to initialize!\n");
 
 	} else {
 		program->run();

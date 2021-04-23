@@ -14,6 +14,7 @@
 #include "Camera.h"
 #include "UserCameraController.h"
 #include "Clock.h"
+#include "CirclePath.h"
 
 #include "UserCameraController.h"
 #include "PathCameraController.h"

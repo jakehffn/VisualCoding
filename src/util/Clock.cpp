@@ -9,10 +9,15 @@ double Clock::tick() {
     currentFrame = SDL_GetPerformanceCounter();
 
     deltaTime = (double)((currentFrame - lastFrame)*1000 / (double)SDL_GetPerformanceFrequency());
-    
+    cumulativeTime += deltaTime;
+
     return deltaTime;
 }
 
 double Clock::getDeltaTime() {
     return deltaTime;
+}
+
+double Clock::getCumulativeTime() {
+    return cumulativeTime;
 }
