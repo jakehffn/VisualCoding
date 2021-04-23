@@ -1,7 +1,7 @@
 #include "Input.h"
 
 Input::Input() {
-    inputs = new int[input_consts::SIZE];
+    inputs = new int[input_consts::SIZE]{0};
 }
 
 void Input::update() {
