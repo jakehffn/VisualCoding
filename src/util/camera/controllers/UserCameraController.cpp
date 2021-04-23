@@ -3,9 +3,11 @@
 UserCameraController::UserCameraController(SDL_Window* window, Clock* clock, Input* input) {
 
     SDL_ShowCursor(SDL_DISABLE);
-
+    
     this->clock = clock;
     this->window = window;
+
+    SDL_WarpMouseInWindow(this->window, render_consts::SCREEN_WIDTH/2, render_consts::SCREEN_HEIGHT/2);
 
     this->input = input;
 
