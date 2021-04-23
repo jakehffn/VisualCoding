@@ -26,7 +26,10 @@ namespace input_consts {
         LEFT,
         RIGHT,
         UP,
-        DOWN
+        DOWN,
+        CAMERA_TOGGLE,
+        // SIZE should always be last, will be assigned to number of elements in enum Inputs
+        SIZE
     };
 
     static const float MOUSE_SPEED = 0.005f;

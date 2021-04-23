@@ -1,5 +1,9 @@
 #include "Input.h"
 
+Input::Input() {
+    inputs = new int[input_consts::SIZE];
+}
+
 void Input::update() {
     
     SDL_GetMouseState(&inputs[input_consts::XPOS], &inputs[input_consts::YPOS]);
@@ -33,6 +37,9 @@ void Input::update() {
                     break;
                 case SDLK_LSHIFT:
                     inputs[input_consts::DOWN] = isDown;
+                    break;
+                case SDLK_c:
+                    inputs[input_consts::CAMERA_TOGGLE] = isDown;
                     break;
                 default:
                     break;

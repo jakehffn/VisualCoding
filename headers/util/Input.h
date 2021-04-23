@@ -6,12 +6,13 @@
 
 class Input {
 public:
+    Input();
     void update();
     int* getInputs();
     bool quitProgram();
 
 private:
-    int inputs[8]{0};
+    int* inputs;
     SDL_Event e;
     bool quit;
 };
