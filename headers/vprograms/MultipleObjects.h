@@ -18,9 +18,9 @@
 #include "UserCameraController.h"
 #include "PathCameraController.h"
 
-class OpenGLTutorial : public VisualProgram {
+class MultipleObjects : public VisualProgram {
 public:
-    ~OpenGLTutorial();
+    ~MultipleObjects();
     bool init(SDL_Window* window);
     void run();
     

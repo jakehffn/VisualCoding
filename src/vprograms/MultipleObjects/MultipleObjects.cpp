@@ -1,11 +1,11 @@
-#include "OpenGLTutorial.h"
+#include "MultipleObjects.h"
 
-OpenGLTutorial::~OpenGLTutorial() {
+MultipleObjects::~MultipleObjects() {
     // Deallocate program
-    glDeleteProgram( programID );
+    glDeleteProgram(programID);
 }
 
-bool OpenGLTutorial::init(SDL_Window* window) {
+bool MultipleObjects::init(SDL_Window* window) {
 
     this->window = window;
 
@@ -16,8 +16,8 @@ bool OpenGLTutorial::init(SDL_Window* window) {
     this->controller = new PathCameraController(window, clock);
     this->camera = new Camera(window, controller);
 
-    std::string vertexPath = "./src/vprograms/OpenGLTutorial/shaders/vertexShader.glsl";
-    std::string fragmentPath = "./src/vprograms/OpenGLTutorial/shaders/fragmentShader.glsl";
+    std::string vertexPath = "./src/vprograms/MultipleObjects/shaders/vertexShader.glsl";
+    std::string fragmentPath = "./src/vprograms/MultipleObjects/shaders/fragmentShader.glsl";
 
     programID = LoadShaders(vertexPath.c_str(), fragmentPath.c_str());
 
@@ -33,7 +33,8 @@ bool OpenGLTutorial::init(SDL_Window* window) {
     return true;
 }
 
-void OpenGLTutorial::run() {
+void MultipleObjects::run() {
+    
     // Get a handle for our "MVP" uniform
     GLuint MatrixID = glGetUniformLocation(programID, "MVP");
 
@@ -83,6 +84,20 @@ void OpenGLTutorial::run() {
         0.820f,  0.883f,  0.371f,
         0.982f,  0.099f,  0.879f
     };
+
+    for (int xx = 0; xx < 108 / 9; xx++) {
+        int triangle = 9 * xx;
+        if (xx % 2 == 0) {
+            for (int yy = 0; yy < 9; yy++) {
+                g_color_buffer_data[triangle + yy] = 0.0f;
+            }
+        } else {
+            for (int yy = 0; yy < 9; yy++) {
+                g_color_buffer_data[triangle + yy] = 1.0f;
+            }
+        }
+        
+    }
 
     GLuint colorbuffer;
     glGenBuffers(1, &colorbuffer);

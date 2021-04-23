@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
+#include <vector>
 
 // GLEW must come before OpenGL
 #include <gl\glew.h>
@@ -10,6 +11,7 @@
 #include "VisualProgram.h"
 
 #include "OpenGLTutorial.h"
+#include "MultipleObjects.h"
 
 bool init();
 void eventHandler();
@@ -78,17 +80,47 @@ void close() {
 	SDL_Quit();
 }
 
+void chooseProgram() {
+
+	std::vector<std::string> programNames {
+		"OpenGLTutorial", 
+		"MultipleObjects"
+	};
+
+	for (int xx = 0; xx < programNames.size(); xx++) {
+		std::cout << "\n" << xx << " - " << programNames.at(xx);
+	}
+	
+	std::cout << "\n\nChoose Program: ";
+
+	int input{0};
+
+	std::cin >> input;
+	std::cout << "\n";
+
+	switch (input) {
+		case 0:
+			program = new OpenGLTutorial();
+			break;
+		case 1:
+			program = new MultipleObjects();
+			break;
+		default:
+			break;
+	}
+}
+
 // Parameters necessary for SDL_Main
 int main(int argv, char** args) {
 
-	program = new OpenGLTutorial();
+	chooseProgram();
 
 	// Start up SDL and create window
 	if( !init() ) {
+		
 		printf( "Failed to initialize!\n" );
 
 	} else {
-		
 		program->run();
 	}
 
