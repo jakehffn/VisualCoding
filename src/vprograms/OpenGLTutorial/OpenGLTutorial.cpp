@@ -22,9 +22,6 @@ void OpenGLTutorial::init(SDL_Window* window) {
     std::string fragmentPath = "./src/vprograms/OpenGLTutorial/shaders/fragmentShader.glsl";
 
     programID = LoadShaders(vertexPath.c_str(), fragmentPath.c_str());
-}
-
-void OpenGLTutorial::run() {
 
     // Enable text input
     SDL_StartTextInput();
@@ -34,7 +31,9 @@ void OpenGLTutorial::run() {
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
+}
 
+void OpenGLTutorial::run() {
 
     // Get a handle for our "MVP" uniform
     GLuint MatrixID = glGetUniformLocation(programID, "MVP");

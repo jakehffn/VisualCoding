@@ -22,9 +22,6 @@ void MultipleObjects::init(SDL_Window* window) {
     std::string fragmentPath = "./src/vprograms/MultipleObjects/shaders/fragmentShader.glsl";
 
     programID = LoadShaders(vertexPath.c_str(), fragmentPath.c_str());
-}
-
-void MultipleObjects::run() {
 
     // Enable text input
     SDL_StartTextInput();
@@ -34,6 +31,9 @@ void MultipleObjects::run() {
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
+}
+
+void MultipleObjects::run() {
     
     // Get a handle for our "MVP" uniform
     GLuint MatrixID = glGetUniformLocation(programID, "MVP");
