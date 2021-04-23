@@ -7,7 +7,7 @@
 
 class VisualProgram {
 public:
-    virtual bool init(SDL_Window* window) = 0;
+    virtual void init(SDL_Window* window) = 0;
     virtual void run() = 0;
 };
 

@@ -18,7 +18,7 @@ void eventHandler();
 void close();
 
 SDL_Window* window = NULL;
-SDL_GLContext gContext;
+SDL_GLContext context;
 VisualProgram* program;
 
 // Initializes SDL, GLEW, then OpenGL
@@ -45,9 +45,9 @@ bool init() {
 			success = false;
 
 		} else {
-			gContext = SDL_GL_CreateContext(window);
+			context = SDL_GL_CreateContext(window);
 
-			if(gContext == NULL) {
+			if(context == NULL) {
 				printf("SDL: OpenGL context could not be created!\nSDL Error: %s\n", SDL_GetError());
 				success = false;
 			} else {
@@ -59,13 +59,10 @@ bool init() {
 
 				// Use Vsync
 				if( SDL_GL_SetSwapInterval( 1 ) < 0 ) {
-					printf( "SDL: Warning: Unable to set VSync!\nSDL Error: %s\n", SDL_GetError() );
+					printf("SDL: Warning: Unable to set VSync!\nSDL Error: %s\n", SDL_GetError());
 				}
 
-				if( !program->init(window) ) {
-					printf( "Unable to init program!\n" );
-					success = false;
-				}
+				program->init(window);
 			}
 		}
 	}
@@ -108,14 +105,11 @@ int main(int argv, char** args) {
 
 	applyProgram(input);
 
-	// Start up SDL and create window
 	if(!init()) {
 		
 		printf("Failed to initialize!\n");
 
 	} else {
-		// SDL_SetWindowGrab(window, SDL_TRUE);
-		// SDL_SetWindowInputFocus(window);
 		program->run();
 	}
 

@@ -22,7 +22,7 @@
 class MultipleObjects : public VisualProgram {
 public:
     ~MultipleObjects();
-    bool init(SDL_Window* window);
+    void init(SDL_Window* window);
     void run();
     
 private:

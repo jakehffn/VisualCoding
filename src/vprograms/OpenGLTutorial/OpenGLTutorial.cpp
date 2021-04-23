@@ -5,25 +5,23 @@ OpenGLTutorial::~OpenGLTutorial() {
     glDeleteProgram( programID );
 }
 
-bool OpenGLTutorial::init(SDL_Window* window) {
+void OpenGLTutorial::init(SDL_Window* window) {
 
     this->window = window;
 
     this->clock = new Clock();
     this->input = new Input();
 
-    // this->controller = new UserCameraController(window, clock, input);
-    CirclePath* path = new CirclePath(glm::vec3(0), 10, 10, 0.001);
+    this->controller = new UserCameraController(window, clock, input);
+    // CirclePath* path = new CirclePath(glm::vec3(0), 10, 10, 0.1);
 
-    this->controller = new PathCameraController(window, clock, path);
+    // this->controller = new PathCameraController(window, clock, path);
     this->camera = new Camera(window, controller);
 
     std::string vertexPath = "./src/vprograms/OpenGLTutorial/shaders/vertexShader.glsl";
     std::string fragmentPath = "./src/vprograms/OpenGLTutorial/shaders/fragmentShader.glsl";
 
     programID = LoadShaders(vertexPath.c_str(), fragmentPath.c_str());
-
-    return true;
 }
 
 void OpenGLTutorial::run() {

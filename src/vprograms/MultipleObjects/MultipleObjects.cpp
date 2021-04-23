@@ -5,7 +5,7 @@ MultipleObjects::~MultipleObjects() {
     glDeleteProgram(programID);
 }
 
-bool MultipleObjects::init(SDL_Window* window) {
+void MultipleObjects::init(SDL_Window* window) {
 
     this->window = window;
 
@@ -13,7 +13,7 @@ bool MultipleObjects::init(SDL_Window* window) {
     this->input = new Input();
 
     // this->controller = new UserCameraController(window, clock, input);
-    CirclePath* path = new CirclePath(glm::vec3(0), 10, 10, 0.001);
+    CirclePath* path = new CirclePath(glm::vec3(0, 0, 0), 10, 10, 0.001);
 
     this->controller = new PathCameraController(window, clock, path);
     this->camera = new Camera(window, controller);
@@ -22,8 +22,6 @@ bool MultipleObjects::init(SDL_Window* window) {
     std::string fragmentPath = "./src/vprograms/MultipleObjects/shaders/fragmentShader.glsl";
 
     programID = LoadShaders(vertexPath.c_str(), fragmentPath.c_str());
-
-    return true;
 }
 
 void MultipleObjects::run() {

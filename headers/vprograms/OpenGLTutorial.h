@@ -22,7 +22,7 @@
 class OpenGLTutorial : public VisualProgram {
 public:
     ~OpenGLTutorial();
-    bool init(SDL_Window* window);
+    void init(SDL_Window* window);
     void run();
     
 private:
