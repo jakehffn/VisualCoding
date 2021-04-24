@@ -1,7 +1,11 @@
 #include "Input.h"
 
 Input::Input() {
-    inputs = new int[input_consts::SIZE]{0};
+    this->inputs = new int[input_consts::SIZE]{0};
+}
+
+Input::~Input() {
+    delete[] this->inputs;
 }
 
 void Input::update() {

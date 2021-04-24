@@ -7,6 +7,7 @@
 class Input {
 public:
     Input();
+    ~Input();
     void update();
     int* getInputs();
     bool quitProgram();
