@@ -1,8 +1,7 @@
 #include "Input.h"
 
-Input::Input() {
-    this->inputs = new int[input_consts::SIZE]{0};
-}
+Input::Input() :
+    inputs{ new int[input_consts::SIZE]{0} }{}
 
 Input::~Input() {
     delete[] this->inputs;

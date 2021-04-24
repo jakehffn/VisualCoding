@@ -1,12 +1,10 @@
 #include "CirclePath.h"
 
-CirclePath::CirclePath(glm::vec3 circleCenter, float circleRadius, float loft, float pathSpeed) {
+CirclePath::CirclePath(glm::vec3 circleCenter, float circleRadius, float loft, float pathSpeed) :
+	circleCenter{ circleCenter }, circleRadius{ circleRadius }, 
+	loft{ loft }, pathSpeed{ pathSpeed} {
     
-    this->circleCenter = circleCenter;
-    this->circleRadius = circleRadius;
-    this->loft = loft;
     this->verticalAngle = -atan(loft/circleRadius);
-    this->pathSpeed = pathSpeed;
 }
 
 void CirclePath::update(glm::vec3& pos, glm::vec3& dir, glm::vec3& right, double time) {

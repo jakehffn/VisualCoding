@@ -1,14 +1,11 @@
 #include "Camera.h"
 
-Camera::Camera(SDL_Window* window, CameraController* controller) {
+Camera::Camera(SDL_Window* window, CameraController* controller) :
+    window{ window}, controller{ controller}, 
+    position{ glm::vec3(0, 0, 5) },viewMatrix{ glm::mat4(1) } {
 
-    this->window = window;
-    this->controller = controller;
-
-    position = glm::vec3( 0, 0, 5 );
     float FoV = 90.0f;
 
-    this->viewMatrix = glm::mat4(1);
     this->projectionMatrix = glm::perspective(glm::radians(FoV), float(render_consts::SCREEN_WIDTH)/float(render_consts::SCREEN_HEIGHT), 0.1f, 100.0f);
 }
 

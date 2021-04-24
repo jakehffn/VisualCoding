@@ -1,18 +1,11 @@
 #include "UserCameraController.h"
 
-UserCameraController::UserCameraController(SDL_Window* window, Clock* clock, Input* input) {
+UserCameraController::UserCameraController(SDL_Window* window, Clock* clock, Input* input) :
+    clock{ clock }, window{ window }, input{ input },
+    horizontalAngle{ 3.14f }, verticalAngle{ 0.0f } {
 
     SDL_ShowCursor(SDL_DISABLE);
-    
-    this->clock = clock;
-    this->window = window;
-
     SDL_WarpMouseInWindow(this->window, render_consts::SCREEN_WIDTH/2, render_consts::SCREEN_HEIGHT/2);
-
-    this->input = input;
-
-    horizontalAngle = 3.14f;
-    verticalAngle = 0.0f;
 }
 
 void UserCameraController::update(glm::vec3& pos, glm::vec3& dir, glm::vec3& right) {
