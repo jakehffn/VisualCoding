@@ -13,7 +13,7 @@ void MultipleObjects::init(SDL_Window* window) {
     this->input = new Input();
 
     // this->controller = new UserCameraController(window, clock, input);
-    CirclePath* path = new CirclePath(glm::vec3(0, 0, 0), 10, 10, 0.001);
+    CirclePath* path = new CirclePath(glm::vec3(0, 0, 0), 30, 10, 1);
 
     this->controller = new PathCameraController(window, clock, path);
     this->camera = new Camera(window, controller);
@@ -114,8 +114,8 @@ void MultipleObjects::run() {
 
         glm::mat4 ProjectionMatrix = camera->getProjectionMatrix();
         glm::mat4 ViewMatrix = camera->getViewMatrix();
-        glm::mat4 ModelMatrix = glm::mat4(1.0);
 
+        glm::mat4 ModelMatrix = glm::mat4(1.0);
         glm::mat4 MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
 
         // Clear the screen
@@ -152,12 +152,45 @@ void MultipleObjects::run() {
             (void*)0                          // array buffer offset
         );
 
-        // Draw the triangle !
         glDrawArrays(GL_TRIANGLES, 0, 12*3); // 12*3 indices starting at 0 -> 12 triangles -> 6 squares
+        
         glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
+
+        glm::mat4 ModelMatrix2 = glm::translate(glm::scale(ModelMatrix, glm::vec3(2, 3, 2)), glm::vec3(2.0f, 1.0f, 1.0f));
+        MVP = ProjectionMatrix * ViewMatrix * ModelMatrix2;
+
+        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+        glEnableVertexAttribArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+        glVertexAttribPointer(
+            0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
+            3,                  // size
+            GL_FLOAT,           // type
+            GL_FALSE,           // normalized?
+            0,                  // stride
+            (void*)0            // array buffer offset
+        );
+
+        // 2nd attribute buffer : colors
+        glEnableVertexAttribArray(1);
+        glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
+        glVertexAttribPointer(
+            1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
+            3,                                // size
+            GL_FLOAT,                         // type
+            GL_FALSE,                         // normalized?
+            0,                                // stride
+            (void*)0                          // array buffer offset
+        );
+
+        glDrawArrays(GL_TRIANGLES, 0, 12*3); // 12*3 indices starting at 0 -> 12 triangles -> 6 squares
 
         // Update screen
         SDL_GL_SwapWindow(window);
+
+        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
     }
 
     SDL_StopTextInput();
