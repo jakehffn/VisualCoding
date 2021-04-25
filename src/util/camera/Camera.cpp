@@ -2,7 +2,8 @@
 
 Camera::Camera(CameraController* controller) :
     controller{ controller }, 
-    position{ glm::vec3(0, 0, 5) }, viewMatrix{ glm::mat4(1) } {
+    position{ glm::vec3(0, 0, 5) }, viewMatrix{ glm::mat4(1) }, 
+    horizontalAngle{ 3.14f }, verticalAngle{ 0.0f } {
 
     float FoV = 90.0f;
 
@@ -23,12 +24,33 @@ void Camera::setController(CameraController* controller) {
 
 void Camera::update() {
 
-    controller->update(this->position, this->direction, this->right);
+    controller->update(this->position, this->horizontalAngle, this->verticalAngle);
+
+    glm::vec3 dir = this->computeDir();
 
 	this->viewMatrix = glm::lookAt(
 		position,           // Camera is here
-		position + direction, // and looks here : at the same position, plus "direction"
-		glm::cross(right, direction) // Head is up (set to 0,-1,0 to look upside-down)
+		position + dir, // and looks here : at the same position, plus "direction"
+		glm::cross(this->computeRight(), dir) // Head is up (set to 0,-1,0 to look upside-down)
 	);
 }
+
+glm::vec3 Camera::computeDir() {
+    // Vector that points out of camera
+	return glm::vec3(
+		cos(verticalAngle) * sin(horizontalAngle), 
+		sin(verticalAngle),
+		cos(verticalAngle) * cos(horizontalAngle)
+	);
+}
+
+glm::vec3 Camera::computeRight() {
+    // Vector which points to the right
+    return glm::vec3(
+		sin(horizontalAngle - 3.14f/2.0f), 
+		0,
+		cos(horizontalAngle - 3.14f/2.0f)
+	);
+}
+
 

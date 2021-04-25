@@ -28,12 +28,16 @@ public:
     void update();
 
 private:
+    glm::vec3 computeDir();
+    glm::vec3 computeRight();
+
     glm::mat4 viewMatrix;
     glm::mat4 projectionMatrix;
 
     CameraController* controller;
 
     glm::vec3 position; 
-    glm::vec3 direction;
-    glm::vec3 right; // Vec that points to the right of the camera
+
+    float horizontalAngle;
+    float verticalAngle;
 };

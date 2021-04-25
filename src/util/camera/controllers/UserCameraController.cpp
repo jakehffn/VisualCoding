@@ -1,14 +1,16 @@
 #include "UserCameraController.h"
 
 UserCameraController::UserCameraController(SDL_Window* window, Clock* clock, Input* input) :
-    clock{ clock }, window{ window }, input{ input },
-    horizontalAngle{ 3.14f }, verticalAngle{ 0.0f } {
+    clock{ clock }, window{ window }, input{ input } {
 
     SDL_ShowCursor(SDL_DISABLE);
+
     SDL_WarpMouseInWindow(this->window, render_consts::SCREEN_WIDTH/2, render_consts::SCREEN_HEIGHT/2);
+    input->getInputs()[input_consts::XPOS] = render_consts::SCREEN_WIDTH/2;
+    input->getInputs()[input_consts::YPOS] = render_consts::SCREEN_HEIGHT/2;
 }
 
-void UserCameraController::update(glm::vec3& pos, glm::vec3& dir, glm::vec3& right) {
+void UserCameraController::update(glm::vec3& pos, float& horizontalAngle, float& verticalAngle) {
 
     // Reset mouse position for next frame
     // This allows measuring mouse movement while keeping mouse centered
@@ -16,11 +18,11 @@ void UserCameraController::update(glm::vec3& pos, glm::vec3& dir, glm::vec3& rig
 
     int* inputList = input->getInputs();
 
-    computeAngles(inputList[input_consts::XPOS], inputList[input_consts::YPOS]);
+    updateAngles(horizontalAngle, verticalAngle);
 
-    dir = computeDir();
-    right = computeRight();
-    glm::vec3 forward = computeForward();
+    glm::vec3 forward = computeForward(horizontalAngle, verticalAngle);
+    glm::vec3 up = glm::vec3(0, 1, 0);
+    glm::vec3 right = glm::cross(forward, up);
 	
     float deltaTime = (float)clock->getDeltaTime();
 
@@ -42,19 +44,21 @@ void UserCameraController::update(glm::vec3& pos, glm::vec3& dir, glm::vec3& rig
     }
     // Move up
     if (inputList[input_consts::UP]) {
-        pos += glm::vec3(0, 1, 0) * deltaTime * input_consts::KEY_SPEED;
+        pos += up * deltaTime * input_consts::KEY_SPEED;
     }
     // Move down
     if (inputList[input_consts::DOWN]) {
-        pos -= glm::vec3(0, 1, 0) * deltaTime * input_consts::KEY_SPEED;
+        pos -= up * deltaTime * input_consts::KEY_SPEED;
     }
 }
 
-void UserCameraController::computeAngles(int xPos, int yPos) {
+void UserCameraController::updateAngles(float& horizontalAngle, float& verticalAngle) {
+
+    int* inputList = input->getInputs();
 
     // Compute new orientation
-	horizontalAngle += input_consts::MOUSE_SPEED * float(render_consts::SCREEN_WIDTH/2 - xPos);
-	verticalAngle += input_consts::MOUSE_SPEED * float(render_consts::SCREEN_HEIGHT/2 - yPos);
+	horizontalAngle += input_consts::MOUSE_SPEED * float(render_consts::SCREEN_WIDTH/2 - inputList[input_consts::XPOS]);
+	verticalAngle += input_consts::MOUSE_SPEED * float(render_consts::SCREEN_HEIGHT/2 - inputList[input_consts::YPOS]);
 
     // Avoids backwards camera from the top
     if (verticalAngle > 3.14/2) {
@@ -66,25 +70,7 @@ void UserCameraController::computeAngles(int xPos, int yPos) {
     }
 }
 
-glm::vec3 UserCameraController::computeDir() {
-    // Vector that points out of camera
-	return glm::vec3(
-		cos(verticalAngle) * sin(horizontalAngle), 
-		sin(verticalAngle),
-		cos(verticalAngle) * cos(horizontalAngle)
-	);
-}
-
-glm::vec3 UserCameraController::computeRight() {
-    // Vector which points to the right
-    return glm::vec3(
-		sin(horizontalAngle - 3.14f/2.0f), 
-		0,
-		cos(horizontalAngle - 3.14f/2.0f)
-	);
-}
-
-glm::vec3 UserCameraController::computeForward() {
+glm::vec3 UserCameraController::computeForward(float horizontalAngle, float verticalAngle) {
     // Vector which points forward
     return glm::vec3(
         sin(horizontalAngle),

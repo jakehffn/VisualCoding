@@ -9,7 +9,7 @@ class PathCameraController : public CameraController {
 public: 
     PathCameraController(Clock* clock, Path* path);
 
-    void update(glm::vec3& pos, glm::vec3& dir, glm::vec3& right);
+    void update(glm::vec3& pos, float& horizontalAngle, float& verticalAngle);
 
 private:
     Clock* clock;

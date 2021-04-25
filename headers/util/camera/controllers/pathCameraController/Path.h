@@ -4,5 +4,5 @@
 
 class Path {
 public:
-    virtual void update(glm::vec3& pos, glm::vec3& dir, glm::vec3& right, double time) = 0;
+    virtual void update(glm::vec3& pos, float& horizontalAngle, float& verticalAngle, double time) = 0;
 };

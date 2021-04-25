@@ -7,6 +7,6 @@
 
 class CameraController {
 public:
-    virtual void update(glm::vec3& pos, glm::vec3& dir, glm::vec3& right) = 0;
+    virtual void update(glm::vec3& pos, float& horizontalAngle, float& verticalAngle) = 0;
 };
 

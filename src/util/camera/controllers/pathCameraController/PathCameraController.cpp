@@ -3,6 +3,6 @@
 PathCameraController::PathCameraController(Clock* clock, Path* path) :
 	clock{ clock }, path{ path } {}
 
-void PathCameraController::update(glm::vec3& pos, glm::vec3& dir, glm::vec3& right) {
-	path->update(pos, dir, right, clock->getCumulativeTime());
+void PathCameraController::update(glm::vec3& pos, float& horizontalAngle, float& verticalAngle) {
+	path->update(pos, horizontalAngle, verticalAngle, clock->getCumulativeTime());
 }
