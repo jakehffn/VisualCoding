@@ -109,7 +109,7 @@ void MultipleObjects::run() {
     
     Instance* box1 = new Instance(cube, glm::mat4(1));
     // Instance* box2 = new Instance(cube, glm::translate(glm::mat4(1), glm::vec3(0,2,0)));
-    Instance* box2 = new Instance(cube, glm::vec3(1, 2, 1));
+    Instance* box2 = new Instance(cube, glm::vec3(0, -2, 0));
 
     scene.addInstance(box1);
     scene.addInstance(box2);
