@@ -18,10 +18,12 @@ No time delta should be tracked within the Camera class.
 
 class Camera {
 public:
-    Camera(SDL_Window*, CameraController*);
+    Camera(CameraController*);
 
     glm::mat4 getViewMatrix();
     glm::mat4 getProjectionMatrix();
+
+    void setController(CameraController* controller);
 
     void update();
 
@@ -29,7 +31,6 @@ private:
     glm::mat4 viewMatrix;
     glm::mat4 projectionMatrix;
 
-    SDL_Window* window;
     CameraController* controller;
 
     glm::vec3 position; 

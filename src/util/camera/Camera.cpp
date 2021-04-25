@@ -1,8 +1,8 @@
 #include "Camera.h"
 
-Camera::Camera(SDL_Window* window, CameraController* controller) :
-    window{ window}, controller{ controller}, 
-    position{ glm::vec3(0, 0, 5) },viewMatrix{ glm::mat4(1) } {
+Camera::Camera(CameraController* controller) :
+    controller{ controller }, 
+    position{ glm::vec3(0, 0, 5) }, viewMatrix{ glm::mat4(1) } {
 
     float FoV = 90.0f;
 
@@ -15,6 +15,10 @@ glm::mat4 Camera::getViewMatrix() {
 
 glm::mat4 Camera::getProjectionMatrix() {
     return projectionMatrix;
+}
+
+void Camera::setController(CameraController* controller) {
+    this->controller = controller;
 }
 
 void Camera::update() {
