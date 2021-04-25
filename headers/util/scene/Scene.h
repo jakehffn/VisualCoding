@@ -1,15 +1,21 @@
 #pragma once
 
+#include <vector>
+
 #include "Object.h"
 #include "Instance.h"
 
 class Scene {
 public:
-    ~Scene();
+    Scene(GLuint uniformID);
 
-    void addInstance(Instance instance);
-    void render();
+    void addInstance(Instance* instance);
+    void render(glm::mat4 projection, glm::mat4 view);
+
+    int getNumInstances();
     
 private:
-    Instance* instances;
+    GLuint uniformID;
+    std::vector<Instance*> instances;
+    int numInstances;
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "VisualProgram.h"
+#include "Scene.h"
 
 #include <string>
 #include <iostream>
@@ -15,6 +16,7 @@
 #include "UserCameraController.h"
 #include "Clock.h"
 #include "CirclePath.h"
+
 
 #include "UserCameraController.h"
 #include "PathCameraController.h"

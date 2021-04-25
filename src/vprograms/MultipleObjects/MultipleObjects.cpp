@@ -12,10 +12,10 @@ void MultipleObjects::init(SDL_Window* window) {
     this->clock = new Clock();
     this->input = new Input();
 
-    // this->controller = new UserCameraController(window, clock, input);
-    CirclePath* path = new CirclePath(glm::vec3(0, 0, 0), 30, 10, 1);
+    this->controller = new UserCameraController(window, clock, input);
+    // CirclePath* path = new CirclePath(glm::vec3(0, 0, 0), 30, 10, 0.001);
 
-    this->controller = new PathCameraController(window, clock, path);
+    // this->controller = new PathCameraController(window, clock, path);
     this->camera = new Camera(window, controller);
 
     std::string vertexPath = "./src/vprograms/MultipleObjects/shaders/vertexShader.glsl";
@@ -104,6 +104,16 @@ void MultipleObjects::run() {
     glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
 
+    Scene scene = Scene(MatrixID);
+    Object* cube = new Object(g_vertex_buffer_data, g_color_buffer_data, sizeof(g_color_buffer_data));
+    
+    Instance* box1 = new Instance(cube, glm::mat4(1));
+    // Instance* box2 = new Instance(cube, glm::translate(glm::mat4(1), glm::vec3(0,2,0)));
+    Instance* box2 = new Instance(cube, glm::vec3(1, 2, 1));
+
+    scene.addInstance(box1);
+    scene.addInstance(box2);
+
     // While application is running
     while(!input->quitProgram()) {
 
@@ -115,82 +125,17 @@ void MultipleObjects::run() {
         glm::mat4 ProjectionMatrix = camera->getProjectionMatrix();
         glm::mat4 ViewMatrix = camera->getViewMatrix();
 
-        glm::mat4 ModelMatrix = glm::mat4(1.0);
-        glm::mat4 MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
-
         // Clear the screen
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Use our shader
         glUseProgram(programID);
 
-        // Send our transformation to the currently bound shader, 
-        // in the "MVP" uniform
-        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
 
-        // 1rst attribute buffer : vertices
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-        glVertexAttribPointer(
-            0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
-            3,                  // size
-            GL_FLOAT,           // type
-            GL_FALSE,           // normalized?
-            0,                  // stride
-            (void*)0            // array buffer offset
-        );
-
-        // 2nd attribute buffer : colors
-        glEnableVertexAttribArray(1);
-        glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-        glVertexAttribPointer(
-            1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
-            3,                                // size
-            GL_FLOAT,                         // type
-            GL_FALSE,                         // normalized?
-            0,                                // stride
-            (void*)0                          // array buffer offset
-        );
-
-        glDrawArrays(GL_TRIANGLES, 0, 12*3); // 12*3 indices starting at 0 -> 12 triangles -> 6 squares
-        
-        glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
-
-        glm::mat4 ModelMatrix2 = glm::translate(glm::scale(ModelMatrix, glm::vec3(2, 3, 2)), glm::vec3(2.0f, 1.0f, 1.0f));
-        MVP = ProjectionMatrix * ViewMatrix * ModelMatrix2;
-
-        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-        glVertexAttribPointer(
-            0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
-            3,                  // size
-            GL_FLOAT,           // type
-            GL_FALSE,           // normalized?
-            0,                  // stride
-            (void*)0            // array buffer offset
-        );
-
-        // 2nd attribute buffer : colors
-        glEnableVertexAttribArray(1);
-        glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-        glVertexAttribPointer(
-            1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
-            3,                                // size
-            GL_FLOAT,                         // type
-            GL_FALSE,                         // normalized?
-            0,                                // stride
-            (void*)0                          // array buffer offset
-        );
-
-        glDrawArrays(GL_TRIANGLES, 0, 12*3); // 12*3 indices starting at 0 -> 12 triangles -> 6 squares
+        scene.render(ProjectionMatrix, ViewMatrix);
 
         // Update screen
         SDL_GL_SwapWindow(window);
-
-        glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
     }
 
     SDL_StopTextInput();
