@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 
+// Used to hold specific model vertex data
 class Object {
 public:
     Object(GLfloat* vboData, GLfloat* colorBufferData, int size);

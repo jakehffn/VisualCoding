@@ -6,7 +6,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-
+// Used to have an instance of a specific type of object
 class Instance {
 public:
     Instance(Object* object, glm::vec3 position, 
