@@ -16,6 +16,7 @@ public:
 
 private:
     void computeAngles(int xPos, int yPos);
+    
     glm::vec3 computeDir();
     glm::vec3 computeRight();
     glm::vec3 computeForward();
