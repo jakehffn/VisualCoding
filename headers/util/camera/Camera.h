@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <SDL.h>
 
 #include <glm/glm.hpp>
@@ -23,7 +25,12 @@ public:
     glm::mat4 getViewMatrix();
     glm::mat4 getProjectionMatrix();
 
-    void setController(CameraController* controller);
+    // !Remove from Camera class eventually!
+    void addController(CameraController* controller);
+    void setController(int pos);
+
+    // !Remove from Camera class eventually!
+    void nextController();
 
     void update();
 
@@ -34,7 +41,13 @@ private:
     glm::mat4 viewMatrix;
     glm::mat4 projectionMatrix;
 
+    // !Remove from Camera class eventually!
+    std::vector<CameraController*> controllers;
+
     CameraController* controller;
+
+    // !Remove from Camera class eventually!
+    int controllerPosition;
 
     glm::vec3 position; 
 

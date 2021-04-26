@@ -1,7 +1,8 @@
 #include "Camera.h"
 
 Camera::Camera(CameraController* controller) :
-    controller{ controller }, 
+    controller{ controller }, controllers{ std::vector<CameraController*>{controller} },
+	controllerPosition{ 0 },
     position{ glm::vec3(0, 0, 5) }, viewMatrix{ glm::mat4(1) }, 
     horizontalAngle{ 3.14f }, verticalAngle{ 0.0f } {
 
@@ -18,8 +19,29 @@ glm::mat4 Camera::getProjectionMatrix() {
     return projectionMatrix;
 }
 
-void Camera::setController(CameraController* controller) {
-    this->controller = controller;
+// !Remove from Camera class eventually!
+void Camera::addController(CameraController* controller) {
+	this->controllers.push_back(controller);
+}
+
+void Camera::setController(int pos) {
+
+	assert(pos < controllers.size());
+
+	this->controllerPosition = pos;
+    this->controller = controllers.at(pos);
+}
+
+// !Remove from Camera class eventually!
+void Camera::nextController() {
+
+	controllerPosition++;
+
+	if (controllerPosition == controllers.size()) {
+		controllerPosition = 0;
+	}
+
+	setController(controllerPosition);
 }
 
 void Camera::update() {
