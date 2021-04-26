@@ -12,11 +12,10 @@ void MultipleObjects::init(SDL_Window* window) {
     this->clock = new Clock();
     this->input = new Input();
 
-    this->controller = new UserCameraController(window, clock, input);
-    // CirclePath* path = new CirclePath(glm::vec3(0, 0, 0), 30, 10, 0.001);
 
-    // this->controller = new PathCameraController(window, clock, path);
-    this->camera = new Camera(window, controller);
+    this->controller = new UserCameraController(window, clock, input);
+
+    this->camera = new Camera(controller);
 
     std::string vertexPath = "./src/vprograms/MultipleObjects/shaders/vertexShader.glsl";
     std::string fragmentPath = "./src/vprograms/MultipleObjects/shaders/fragmentShader.glsl";
@@ -109,15 +108,30 @@ void MultipleObjects::run() {
     
     Instance* box1 = new Instance(cube, glm::mat4(1));
     // Instance* box2 = new Instance(cube, glm::translate(glm::mat4(1), glm::vec3(0,2,0)));
-    Instance* box2 = new Instance(cube, glm::vec3(0, -2, 0));
+    Instance* box2 = new Instance(cube, glm::vec3(0, -2, 0), glm::vec3(3, 1, 3), glm::vec3(1, 1, 1));
 
     scene.addInstance(box1);
     scene.addInstance(box2);
+
+    CirclePath* path = new CirclePath(glm::vec3(0, 0, 0), 30, 10, 0.001);
+
+    PathCameraController* controller2 = new PathCameraController(clock, path);
+    this->camera->addController(controller2);
+
+    bool prevState = false;
 
     // While application is running
     while(!input->quitProgram()) {
 
         clock->tick();
+        
+        if (!input->getInputs()[input_consts::CAMERA_TOGGLE] && prevState) {
+            
+            prevState = false;
+            camera->nextController();
+        } else {
+            prevState = input->getInputs()[input_consts::CAMERA_TOGGLE];
+        }
 
         camera->update();
         input->update();
@@ -130,8 +144,6 @@ void MultipleObjects::run() {
 
         // Use our shader
         glUseProgram(programID);
-
-
         scene.render(ProjectionMatrix, ViewMatrix);
 
         // Update screen

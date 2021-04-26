@@ -6,8 +6,7 @@ UserCameraController::UserCameraController(SDL_Window* window, Clock* clock, Inp
     SDL_ShowCursor(SDL_DISABLE);
 
     SDL_WarpMouseInWindow(this->window, render_consts::SCREEN_WIDTH/2, render_consts::SCREEN_HEIGHT/2);
-    input->getInputs()[input_consts::XPOS] = render_consts::SCREEN_WIDTH/2;
-    input->getInputs()[input_consts::YPOS] = render_consts::SCREEN_HEIGHT/2;
+    input->update();
 }
 
 void UserCameraController::update(glm::vec3& pos, float& horizontalAngle, float& verticalAngle) {
