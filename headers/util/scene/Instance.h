@@ -25,8 +25,7 @@ public:
     void setScale(glm::vec3 scale);
     glm::vec3 getScale();
 
-    GLuint getVBO();
-    GLuint getColorBuffer();
+    GLuint getVAO();
 
 private:
     Object* object;

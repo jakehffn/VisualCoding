@@ -8,12 +8,13 @@
 // Used to hold specific model vertex data
 class Object {
 public:
-    Object(GLfloat* vboData, GLfloat* colorBufferData, int size);
+    Object(GLfloat* VBOData, int VBOSize, GLuint* IBOData, int IBOSize, GLfloat* colorBufferData, int colorBufferSize);
 
-    GLuint getVBO();
-    GLuint getColorBuffer();
+    GLuint getVAO();
 
 private:
-    GLuint vbo;
+    GLuint VAO;
+    GLuint VBO;
+    GLuint IBO;
     GLuint colorBuffer;
 };

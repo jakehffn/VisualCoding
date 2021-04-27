@@ -93,10 +93,12 @@ void OpenGLTutorial::run() {
     // While application is running
     while(!input->quitProgram()) {
 
+        
         clock->tick();
-
-        camera->update();
         input->update();
+        camera->update();
+        
+        
 
         glm::mat4 ProjectionMatrix = camera->getProjectionMatrix();
         glm::mat4 ViewMatrix = camera->getViewMatrix();

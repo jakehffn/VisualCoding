@@ -73,10 +73,6 @@ glm::vec3 Instance::getScale() {
     return this->scale;
 }
 
-GLuint Instance::getVBO() {
-    return this->object->getVBO();
-}
-
-GLuint Instance::getColorBuffer() {
-    return this->object->getColorBuffer();
+GLuint Instance::getVAO() {
+    return this->object->getVAO();
 }

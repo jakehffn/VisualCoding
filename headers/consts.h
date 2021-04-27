@@ -32,7 +32,7 @@ namespace input_consts {
         SIZE
     };
 
-    static const float MOUSE_SPEED = 0.005f;
+    static const float MOUSE_SPEED = 0.003f;
     static const float KEY_SPEED = 0.005f;
 }
 
@@ -77,5 +77,46 @@ namespace objects {
         1.0f, 1.0f, 1.0f,
         -1.0f, 1.0f, 1.0f,
         1.0f,-1.0f, 1.0f
+    };
+
+    static const int cube8size = 24;
+
+    static const GLfloat cube8[] {
+        -1.0f, -1.0f, -1.0f,
+        1.0f, -1.0f, -1.0f,
+        -1.0f, 1.0f, -1.0f, 
+        1.0f, 1.0f, -1.0f,
+        -1.0f, -1.0f, 1.0f,
+        1.0f, -1.0f, 1.0f, 
+        -1.0f, 1.0f ,1.0f, 
+        1.0f, 1.0f, 1.0f
+    };
+
+    static const int cube8indicessize = 12;
+
+    static const GLuint cube8indices[] {
+        0, 2, 3,
+        0, 3, 1,
+        0, 1, 5,
+        0, 5, 4,
+        0, 4, 6,
+        0, 6, 2,
+        1, 3, 7,
+        1, 7, 5,
+        2, 6, 7,
+        2, 7, 3,
+        4, 5, 7,
+        4, 7, 6,
+    };
+
+    static const GLfloat cube8vnorms[] {
+        -0.577350, -0.577350, -0.577350,
+        0.816497, -0.408248, -0.408248,
+        -0.408248, 0.816497, -0.408248,
+        0.408248, 0.408248, -0.816497,
+        -0.408248, -0.408248, 0.816497,
+        0.408248, -0.816497, 0.408248,
+        -0.816497, 0.408248, 0.408248,
+        0.577350, 0.577350, 0.577350,
     };
 }

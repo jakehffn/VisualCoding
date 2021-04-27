@@ -33,19 +33,34 @@ void MultipleObjects::init(SDL_Window* window) {
 }
 
 void MultipleObjects::run() {
-    
-    // Get a handle for our "MVP" uniform
-    GLuint MatrixID = glGetUniformLocation(programID, "MVP");
 
-    GLfloat g_vertex_buffer_data[objects::cubeSize];
-    std::copy(objects::cube, objects::cube + objects::cubeSize, g_vertex_buffer_data);
+    GLfloat vertexBufferData[] {
+        -1.0f, -1.0f, -1.0f,
+        1.0f, -1.0f, -1.0f,
+        -1.0f, 1.0f, -1.0f, 
+        1.0f, 1.0f, -1.0f,
+        -1.0f, -1.0f, 1.0f,
+        1.0f, -1.0f, 1.0f, 
+        -1.0f, 1.0f ,1.0f, 
+        1.0f, 1.0f, 1.0f
+    };
 
-    GLuint vertexbuffer;
-    glGenBuffers(1, &vertexbuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+    GLuint vertexBufferIndices[] {
+        0, 2, 3,
+        0, 3, 1,
+        0, 1, 5,
+        0, 5, 4,
+        0, 4, 6,
+        0, 6, 2,
+        1, 3, 7,
+        1, 7, 5,
+        2, 6, 7,
+        2, 7, 3,
+        4, 5, 7,
+        4, 7, 6,
+    };
 
-    GLfloat g_color_buffer_data[] = {
+    GLfloat colorBufferData[] = {
         0.583f,  0.771f,  0.014f,
         0.609f,  0.115f,  0.436f,
         0.327f,  0.483f,  0.844f,
@@ -88,23 +103,18 @@ void MultipleObjects::run() {
         int triangle = 9 * xx;
         if (xx % 2 == 0) {
             for (int yy = 0; yy < 9; yy++) {
-                g_color_buffer_data[triangle + yy] = 0.0f;
+                colorBufferData[triangle + yy] = 0.0f;
             }
         } else {
             for (int yy = 0; yy < 9; yy++) {
-                g_color_buffer_data[triangle + yy] = 1.0f;
+                colorBufferData[triangle + yy] = 1.0f;
             }
         }
         
     }
 
-    GLuint colorbuffer;
-    glGenBuffers(1, &colorbuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
-
-    Scene scene = Scene(MatrixID);
-    Object* cube = new Object(g_vertex_buffer_data, g_color_buffer_data, sizeof(g_color_buffer_data));
+    Scene scene = Scene(programID);
+    Object* cube = new Object(vertexBufferData, sizeof(vertexBufferData), vertexBufferIndices, sizeof(vertexBufferIndices), colorBufferData, sizeof(colorBufferData));
     
     Instance* box1 = new Instance(cube, glm::mat4(1));
     // Instance* box2 = new Instance(cube, glm::translate(glm::mat4(1), glm::vec3(0,2,0)));
@@ -133,8 +143,8 @@ void MultipleObjects::run() {
             prevState = input->getInputs()[input_consts::CAMERA_TOGGLE];
         }
 
-        camera->update();
         input->update();
+        camera->update();
 
         glm::mat4 ProjectionMatrix = camera->getProjectionMatrix();
         glm::mat4 ViewMatrix = camera->getViewMatrix();
@@ -144,6 +154,7 @@ void MultipleObjects::run() {
 
         // Use our shader
         glUseProgram(programID);
+
         scene.render(ProjectionMatrix, ViewMatrix);
 
         // Update screen

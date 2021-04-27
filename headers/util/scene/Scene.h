@@ -7,7 +7,7 @@
 
 class Scene {
 public:
-    Scene(GLuint uniformID);
+    Scene(GLint uniformID);
 
     void addInstance(Instance* instance);
     void render(glm::mat4 projection, glm::mat4 view);
@@ -15,7 +15,6 @@ public:
     int getNumInstances();
     
 private:
-    GLuint uniformID;
+    GLint uniformID;
     std::vector<Instance*> instances;
-    int numInstances;
 };
