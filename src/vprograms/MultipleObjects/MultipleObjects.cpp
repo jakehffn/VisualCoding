@@ -136,7 +136,7 @@ void MultipleObjects::run() {
     scene.addInstance(box1);
     scene.addInstance(box2);
 
-    CirclePath* path = new CirclePath(glm::vec3(0, 0, 0), 30, 10, 0.001);
+    CirclePath* path = new CirclePath(glm::vec3(0, 0, 0), 8, 5, 0.001);
 
     PathCameraController* controller2 = new PathCameraController(clock, path);
     this->camera->addController(controller2);

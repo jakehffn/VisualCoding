@@ -20,7 +20,7 @@ void Scene::render(glm::mat4 projection, glm::mat4 view) {
         glm::mat4 MVP = projection*view*M;
 
         glm::vec3 lightPos = glm::vec3(4,4,4);
-		glUniform3f(this->LightID, lightPos.x, lightPos.y, lightPos.z);
+		glUniform3f(this->LightID, 0, 100, 10);
 
         glUniformMatrix4fv(this->MVPuniformID, 1, GL_FALSE, &MVP[0][0]);
         glUniformMatrix4fv(this->MuniformID, 1, GL_FALSE, &M[0][0]);
@@ -37,5 +37,5 @@ void Scene::setUniformIDs() {
     this->MVPuniformID = glGetUniformLocation(this->programID, "MVP");
     this->MuniformID = glGetUniformLocation(this->programID, "M");
     this->VuniformID - glGetUniformLocation(this->programID, "V");
-    this->LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
+    this->LightID = glGetUniformLocation(this->programID, "LightPosition_worldspace");
 }
