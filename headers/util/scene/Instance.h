@@ -25,7 +25,9 @@ public:
     void setScale(glm::vec3 scale);
     glm::vec3 getScale();
 
-    GLuint getVAO();
+    GLuint getObjectVAO();
+    int getObjectNumVertices();
+    
 
 private:
     Object* object;

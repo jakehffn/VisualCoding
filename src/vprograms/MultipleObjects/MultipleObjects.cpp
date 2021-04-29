@@ -60,6 +60,17 @@ void MultipleObjects::run() {
         4, 7, 6,
     };
 
+    GLfloat vertexNormalBufferData[] {
+        -0.577350, -0.577350, -0.577350,
+        0.816497, -0.408248, -0.408248,
+        -0.408248, 0.816497, -0.408248,
+        0.408248, 0.408248, -0.816497,
+        -0.408248, -0.408248, 0.816497,
+        0.408248, -0.816497, 0.408248,
+        -0.816497, 0.408248, 0.408248,
+        0.577350, 0.577350, 0.577350,
+    };
+
     GLfloat colorBufferData[] = {
         0.583f,  0.771f,  0.014f,
         0.609f,  0.115f,  0.436f,
@@ -113,8 +124,10 @@ void MultipleObjects::run() {
         
     }
 
+    char OBJPath[] = "C:\\Users\\Jaket\\OneDrive\\Documents\\Programming\\visualCoding\\src\\vprograms\\MultipleObjects\\objects\\cube.obj";
+
     Scene scene = Scene(programID);
-    Object* cube = new Object(vertexBufferData, sizeof(vertexBufferData), vertexBufferIndices, sizeof(vertexBufferIndices), colorBufferData, sizeof(colorBufferData));
+    Object* cube = new Object(OBJPath);
     
     Instance* box1 = new Instance(cube, glm::mat4(1));
     // Instance* box2 = new Instance(cube, glm::translate(glm::mat4(1), glm::vec3(0,2,0)));

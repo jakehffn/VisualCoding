@@ -73,6 +73,10 @@ glm::vec3 Instance::getScale() {
     return this->scale;
 }
 
-GLuint Instance::getVAO() {
+GLuint Instance::getObjectVAO() {
     return this->object->getVAO();
+}
+
+int Instance::getObjectNumVertices() {
+    return this->object->getNumVertices();
 }
