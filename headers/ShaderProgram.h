@@ -6,7 +6,7 @@
 #include <SDL_opengl.h>
 
 #include <glm/glm.hpp>
-#include "Shader.h"
+#include "ShaderLoader.h"
 
 // ShaderProgram provides a way for the Scene to interface with each shader prorgam
 //  This is done through the renderSetup() function
