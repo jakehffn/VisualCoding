@@ -20,17 +20,13 @@ No time delta should be tracked within the Camera class.
 
 class Camera {
 public:
+    Camera();
     Camera(CameraController*);
 
     glm::mat4 getViewMatrix();
     glm::mat4 getProjectionMatrix();
 
-    // !Remove from Camera class eventually!
-    void addController(CameraController* controller);
-    void setController(int pos);
-
-    // !Remove from Camera class eventually!
-    void nextController();
+    void setController(CameraController* cameraController);
 
     void update();
 
@@ -41,13 +37,7 @@ private:
     glm::mat4 viewMatrix;
     glm::mat4 projectionMatrix;
 
-    // !Remove from Camera class eventually!
-    std::vector<CameraController*> controllers;
-
-    CameraController* controller;
-
-    // !Remove from Camera class eventually!
-    int controllerPosition;
+    CameraController* cameraController;
 
     glm::vec3 position; 
 

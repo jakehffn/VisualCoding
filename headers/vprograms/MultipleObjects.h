@@ -17,6 +17,7 @@
 #include "Clock.h"
 #include "CirclePath.h"
 #include "LinePath.h"
+#include "BasicShaderProgram.h"
 
 #include "UserCameraController.h"
 #include "PathCameraController.h"
@@ -33,6 +34,7 @@ private:
 
     Clock* clock;
     Input* input;
-    Camera* camera;
-    CameraController* controller;
+    Scene* scene;
+
+    CameraController* cameraController;
 };

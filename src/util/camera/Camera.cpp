@@ -1,8 +1,19 @@
 #include "Camera.h"
 
-Camera::Camera(CameraController* controller) :
-    controller{ controller }, controllers{ std::vector<CameraController*>{controller} },
-	controllerPosition{ 0 },
+#include <stdio.h>
+
+Camera::Camera() :
+    position{ glm::vec3(0, 0, 5) }, viewMatrix{ glm::mat4(1) }, 
+    horizontalAngle{ 3.14f }, verticalAngle{ 0.0f } {
+
+    float FoV = 90.0f;
+
+    this->projectionMatrix = glm::perspective(glm::radians(FoV), float(render_consts::SCREEN_WIDTH)/float(render_consts::SCREEN_HEIGHT), 0.1f, 100.0f);
+}
+
+
+Camera::Camera(CameraController* cameraController) :
+    cameraController{ cameraController },
     position{ glm::vec3(0, 0, 5) }, viewMatrix{ glm::mat4(1) }, 
     horizontalAngle{ 3.14f }, verticalAngle{ 0.0f } {
 
@@ -19,34 +30,13 @@ glm::mat4 Camera::getProjectionMatrix() {
     return projectionMatrix;
 }
 
-// !Remove from Camera class eventually!
-void Camera::addController(CameraController* controller) {
-	this->controllers.push_back(controller);
-}
-
-void Camera::setController(int pos) {
-
-	assert(pos < controllers.size());
-
-	this->controllerPosition = pos;
-    this->controller = controllers.at(pos);
-}
-
-// !Remove from Camera class eventually!
-void Camera::nextController() {
-
-	controllerPosition++;
-
-	if (controllerPosition == controllers.size()) {
-		controllerPosition = 0;
-	}
-
-	setController(controllerPosition);
+void Camera::setController(CameraController* cameraController) {
+	this->cameraController = cameraController;
 }
 
 void Camera::update() {
 
-    controller->update(this->position, this->horizontalAngle, this->verticalAngle);
+    cameraController->update(this->position, this->horizontalAngle, this->verticalAngle);
 
     glm::vec3 dir = this->computeDir();
 

@@ -4,25 +4,42 @@
 
 #include "Object.h"
 #include "Instance.h"
+#include "Camera.h"
+#include "Clock.h"
+#include "ShaderProgram.h"
+#include "UserCameraController.h"
 
 class Scene {
 public:
-    Scene(GLint programID);
+    Scene(SDL_Window* window, Clock* clock, Input* input, CameraController* cameraController);
 
-    void addInstance(Instance* instance);
-    void render(glm::mat4 projection, glm::mat4 view);
+    // Returns ID for shader program (currently just vector pos)
+    int addShaderProgram(ShaderProgram* shaderProgram);
+    // Returns ID for obj (currenlty just vector pos)
+    int addObject(char* objPath);
+    // Returns ID for instance (currently just vector pos)
+    int addInstance(int objID, int shaderProgramID, glm::vec3 position, glm::vec3 scale, glm::vec3 rotation);
+    Instance* getInstance(int instanceID);
 
-    int getNumInstances();
+    // Returns the position of added camera controller
+    int addCameraController(CameraController* cameraController);
+    void setCameraController(int pos);
+    void nextCameraController();
+    // void addPointLight(glm::vec3 lightPos);
 
-    void setUniformIDs();
-    
+    void render();
+
 private:
-    GLint programID;
+    SDL_Window* window;
+    Clock* clock;
+    Input* input;
 
-    GLint MVPuniformID;
-    GLint MuniformID;
-    GLint VuniformID;
-    GLuint LightID;
+    Camera camera;
 
-    std::vector<Instance*> instances;
+    std::vector<CameraController*> cameraControllers;
+    int cameraControllerPosition;
+
+    std::vector<ShaderProgram*> shaderPrograms;
+    std::vector<Object> objects;
+    std::vector<Instance> instances;
 };

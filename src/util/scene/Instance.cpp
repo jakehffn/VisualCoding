@@ -1,15 +1,15 @@
 #include "Instance.h"
 
-Instance::Instance(Object* object, glm::vec3 position, 
+Instance::Instance(Object* object, int shaderProgramID, glm::vec3 position, 
     glm::vec3 scale /*=glm::vec3(1)*/, glm::vec3 rotation /*=glm::vec3(0)*/) :
-        object{ object }, 
+        object{ object }, shaderProgramID{ shaderProgramID },
         position{ position }, rotation{ rotation }, scale{ scale }, 
         needsUpdate{ true }, isStatic{ false } {
 
     updateModel();
 }
 
-Instance::Instance(Object* object, glm::mat4 model) :
+Instance::Instance(Object* object, GLuint openGLShaderProgramID, glm::mat4 model) :
     object{ object }, model{ model }, 
     position{ glm::vec3() }, rotation{ glm::vec3() }, scale{ glm::vec3() }, 
     needsUpdate{ false }, isStatic{ true } {}
@@ -71,6 +71,10 @@ void Instance::setScale(glm::vec3 scale) {
 
 glm::vec3 Instance::getScale() {
     return this->scale;
+}
+
+int Instance::getShaderProgramID() {
+    return this->shaderProgramID;
 }
 
 GLuint Instance::getObjectVAO() {
