@@ -8,8 +8,6 @@ BasicShaderProgram::BasicShaderProgram(std::string vertexShaderPath, std::string
     this->MuniformID = glGetUniformLocation(this->openGLShaderProgramID, "M");
     this->VuniformID = glGetUniformLocation(this->openGLShaderProgramID, "V");
     this->LightID = glGetUniformLocation(this->openGLShaderProgramID, "LightPosition_worldspace");
-
-    printf("%i, %i, %i, %i\n", MVPuniformID, MuniformID, VuniformID, LightID);
 }
 
 GLuint BasicShaderProgram::getOpenGLShaderProgramID() {
