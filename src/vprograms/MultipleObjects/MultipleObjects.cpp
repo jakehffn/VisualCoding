@@ -14,7 +14,6 @@ void MultipleObjects::init(SDL_Window* window) {
     this->cameraController = new UserCameraController(this->window, this->clock, this->input);
 
     this->scene = new Scene(this->window, this->clock, this->input, this->cameraController);
-    // this->controller = new UserCameraController(window, clock, input);
 
     // Enable text input
     SDL_StartTextInput();
