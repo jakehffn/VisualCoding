@@ -15,8 +15,6 @@ void UserCameraController::update(glm::vec3& pos, float& horizontalAngle, float&
     // This allows measuring mouse movement while keeping mouse centered
 	SDL_WarpMouseInWindow(this->window, render_consts::SCREEN_WIDTH/2, render_consts::SCREEN_HEIGHT/2);
 
-    int* inputList = input->getInputs();
-
     updateAngles(horizontalAngle, verticalAngle);
 
     glm::vec3 forward = computeForward(horizontalAngle, verticalAngle);
@@ -26,38 +24,36 @@ void UserCameraController::update(glm::vec3& pos, float& horizontalAngle, float&
     float deltaTime = (float)clock->getDeltaTime();
 
     // Move forward
-    if (inputList[input_consts::FORWARD]) {
+    if (input->isKeyDown(SDLK_w)) {
         pos += forward * deltaTime * input_consts::KEY_SPEED;
     }
     // Move backward
-    if (inputList[input_consts::BACKWARD]) {
+    if (input->isKeyDown(SDLK_s)) {
         pos -= forward * deltaTime * input_consts::KEY_SPEED;
     }
     // Strafe left
-    if (inputList[input_consts::LEFT]) {
+    if (input->isKeyDown(SDLK_a)) {
         pos -= right * deltaTime * input_consts::KEY_SPEED;
     }
     // Strafe right
-    if (inputList[input_consts::RIGHT]) {
+    if (input->isKeyDown(SDLK_d)) {
         pos += right * deltaTime * input_consts::KEY_SPEED;
     }
     // Move up
-    if (inputList[input_consts::UP]) {
+    if (input->isKeyDown(SDLK_SPACE)) {
         pos += up * deltaTime * input_consts::KEY_SPEED;
     }
     // Move down
-    if (inputList[input_consts::DOWN]) {
+    if (input->isKeyDown(SDLK_LSHIFT)) {
         pos -= up * deltaTime * input_consts::KEY_SPEED;
     }
 }
 
 void UserCameraController::updateAngles(float& horizontalAngle, float& verticalAngle) {
 
-    int* inputList = input->getInputs();
-
     // Compute new orientation
-	horizontalAngle += input_consts::MOUSE_SPEED * float(render_consts::SCREEN_WIDTH/2 - inputList[input_consts::XPOS]);
-	verticalAngle += input_consts::MOUSE_SPEED * float(render_consts::SCREEN_HEIGHT/2 - inputList[input_consts::YPOS]);
+	horizontalAngle += input_consts::MOUSE_SPEED * float(render_consts::SCREEN_WIDTH/2 - input->getMouseX());
+	verticalAngle += input_consts::MOUSE_SPEED * float(render_consts::SCREEN_HEIGHT/2 - input->getMouseY());
 
     // Avoids backwards camera from the top
     if (verticalAngle > 3.14/2) {

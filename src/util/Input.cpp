@@ -1,15 +1,18 @@
 #include "Input.h"
 
 Input::Input() :
-    inputs{ new int[input_consts::SIZE]{0} }{}
-
-Input::~Input() {
-    delete[] this->inputs;
-}
+    keyInputs{ std::unordered_set<SDL_Keycode>() },
+    toggleInputs{ std::unordered_set<SDL_Keycode>() },
+    abridgedInputs{ std::unordered_set<SDL_Keycode>() },
+    mouseX{ 0 }, mouseY{ 0 }, quit{ false }{}
 
 void Input::update() {
-    
-    SDL_GetMouseState(&inputs[input_consts::XPOS], &inputs[input_consts::YPOS]);
+
+    SDL_GetMouseState(&this->mouseX, &this->mouseY);
+
+    for(auto abridgedInput : abridgedInputs) {
+        keyInputs.erase(abridgedInput);
+    }
 
     // Handle events on queue
     while(SDL_PollEvent( &e ) != 0) {
@@ -22,39 +25,58 @@ void Input::update() {
             
             int isDown = (int)(e.type == SDL_KEYDOWN);
 
-            switch (e.key.keysym.sym) {
-                case SDLK_w:
-                    inputs[input_consts::FORWARD] = isDown;
-                    break;
-                case SDLK_s:
-                    inputs[input_consts::BACKWARD] = isDown;
-                    break;
-                case SDLK_a:
-                    inputs[input_consts::LEFT] = isDown;
-                    break;
-                case SDLK_d:
-                    inputs[input_consts::RIGHT] = isDown;
-                    break;
-                case SDLK_SPACE:
-                    inputs[input_consts::UP] = isDown;
-                    break;
-                case SDLK_LSHIFT:
-                    inputs[input_consts::DOWN] = isDown;
-                    break;
-                case SDLK_c:
-                    inputs[input_consts::CAMERA_TOGGLE] = isDown;
-                    break;
-                default:
-                    break;
+            SDL_Keycode currKey = e.key.keysym.sym;
+
+            if(toggleInputs.count(currKey) == 1 && isDown) {
+
+                if (keyInputs.count(currKey) == 1) {
+
+                    keyInputs.erase(currKey);
+                } else {
+                    keyInputs.insert(currKey);
+                }
+
+            } else {
+
+                if(isDown) {
+                    keyInputs.insert(currKey);
+                } else {
+                    keyInputs.erase(currKey);
+                }
+
             }
+            
+
         } 
     }
 
 }
 
-int* Input::getInputs() {
-    return inputs;
+void Input::setToggle(SDL_Keycode key) {
+
+    assert(this->abridgedInputs.count(key) == 0);
+
+    this->toggleInputs.insert(key);
+}
+
+void Input::setAbridge(SDL_Keycode key) {
+
+    assert(this->toggleInputs.count(key) == 0);
+
+    this->abridgedInputs.insert(key);
+}
+
+bool Input::isKeyDown(SDL_Keycode key) {
+    return (this->keyInputs.count(key));
 } 
+
+int Input::getMouseX() {
+    return this->mouseX;
+}
+
+int Input::getMouseY() {
+    return this->mouseY;
+}
 
 bool Input::quitProgram() {
     return quit;

@@ -11,6 +11,9 @@ void MultipleObjects::init(SDL_Window* window) {
 
     this->clock = new Clock();
     this->input = new Input();
+
+    this->input->setAbridge(SDLK_c);
+
     this->cameraController = new UserCameraController(this->window, this->clock, this->input);
 
     this->scene = new Scene(this->window, this->clock, this->input, this->cameraController);
@@ -37,20 +40,14 @@ void MultipleObjects::run() {
     PathCameraController* controller2 = new PathCameraController(clock, path);
     scene->addCameraController(controller2);
 
-    bool prevState = false;
-
     // While application is running
     while(!input->quitProgram()) {
 
         clock->tick();
         
-        if (!input->getInputs()[input_consts::CAMERA_TOGGLE] && prevState) {
-            
-            prevState = false;
+        if (input->isKeyDown(SDLK_c)) {
             scene->nextCameraController();
-        } else {
-            prevState = input->getInputs()[input_consts::CAMERA_TOGGLE];
-        }
+        } 
 
         scene->render();
 
