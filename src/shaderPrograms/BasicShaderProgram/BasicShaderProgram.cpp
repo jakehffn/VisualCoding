@@ -1,7 +1,10 @@
 #include "BasicShaderProgram.h"
 
-BasicShaderProgram::BasicShaderProgram(std::string vertexShaderPath, std::string fragmentShaderPath) {
+BasicShaderProgram::BasicShaderProgram() {
     
+    std::string vertexShaderPath = "./src/shaderPrograms/BasicShaderProgram/vertexShader.glsl";
+    std::string fragmentShaderPath = "./src/shaderPrograms/BasicShaderProgram/fragmentShader.glsl";
+
     this->openGLShaderProgramID = LoadShaders(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
 
     this->MVPuniformID = glGetUniformLocation(this->openGLShaderProgramID, "MVP");

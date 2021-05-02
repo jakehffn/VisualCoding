@@ -24,10 +24,7 @@ void MultipleObjects::init(SDL_Window* window) {
 
 void MultipleObjects::run() {
 
-    std::string vertexPath = "./src/vprograms/MultipleObjects/shaders/vertexShader.glsl";
-    std::string fragmentPath = "./src/vprograms/MultipleObjects/shaders/fragmentShader.glsl";
-
-    ShaderProgram* shaderProgram = new BasicShaderProgram(vertexPath, fragmentPath);
+    ShaderProgram* shaderProgram = new BasicShaderProgram();
 
     int shaderID = scene->addShaderProgram(shaderProgram);
 

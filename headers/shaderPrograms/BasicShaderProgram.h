@@ -5,7 +5,7 @@
 
 class BasicShaderProgram : public ShaderProgram {
 public:
-    BasicShaderProgram(std::string vertexShaderPath,std::string fragmentShaderPath);
+    BasicShaderProgram();
 
     GLuint getOpenGLShaderProgramID();
     void renderSetup(glm::mat4 model, glm::mat4 view, glm::mat4 projection);
