@@ -8,8 +8,11 @@ Input::Input() :
 
 void Input::update() {
 
+    // Set mouseX and mouseY to the mouse positions in pixels
     SDL_GetMouseState(&this->mouseX, &this->mouseY);
 
+    // For every abridged input, if it is in keyInputs, remove it
+    //  This will cause any adbridged input to only be active for one frame
     for(auto abridgedInput : abridgedInputs) {
         keyInputs.erase(abridgedInput);
     }
@@ -17,39 +20,43 @@ void Input::update() {
     // Handle events on queue
     while(SDL_PollEvent( &e ) != 0) {
         
-        if(e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE) {
+        // If windows native quit action, flag quit
+        if(e.type == SDL_QUIT) {
 
             this->quit = true;
-
-        } else if(e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
+        } 
+        
+        // If it is a key event...
+        if(e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
             
-            int isDown = (int)(e.type == SDL_KEYDOWN);
+            int isKeydown = (int)(e.type == SDL_KEYDOWN);
 
-            SDL_Keycode currKey = e.key.keysym.sym;
+            SDL_Keycode currEventKey = e.key.keysym.sym;
 
-            if(toggleInputs.count(currKey) == 1 && isDown) {
+            // On keydown only, toggle keys' states are changed
+            if(toggleInputs.count(currEventKey) == 1 && isKeydown) {
 
-                if (keyInputs.count(currKey) == 1) {
+                if (keyInputs.count(currEventKey) == 1) {
 
-                    keyInputs.erase(currKey);
+                    keyInputs.erase(currEventKey);
                 } else {
-                    keyInputs.insert(currKey);
+                    keyInputs.insert(currEventKey);
                 }
 
             } else {
-
-                if(isDown) {
-                    keyInputs.insert(currKey);
+                
+                // For both normal and abridged keys, on keydown, insert into active inputs
+                //  Note: there is an extraneous erase() for abridged keys as they will
+                //      always be removed from the active inputs at the beginning of 
+                //      an update
+                if(isKeydown) {
+                    keyInputs.insert(currEventKey);
                 } else {
-                    keyInputs.erase(currKey);
+                    keyInputs.erase(currEventKey);
                 }
-
             }
-            
-
         } 
     }
-
 }
 
 void Input::setToggle(SDL_Keycode key) {
