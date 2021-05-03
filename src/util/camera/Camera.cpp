@@ -4,7 +4,7 @@
 
 Camera::Camera() :
     position{ glm::vec3(0, 0, 5) }, viewMatrix{ glm::mat4(1) }, 
-    horizontalAngle{ 3.14f }, verticalAngle{ 0.0f } {
+    horizontalAngle{ 0.0f }, verticalAngle{ 0.0f } {
 
     float FoV = 90.0f;
 
@@ -15,11 +15,11 @@ Camera::Camera() :
 Camera::Camera(CameraController* cameraController) :
     cameraController{ cameraController },
     position{ glm::vec3(0, 0, 5) }, viewMatrix{ glm::mat4(1) }, 
-    horizontalAngle{ 3.14f }, verticalAngle{ 0.0f } {
+    horizontalAngle{ 0.0f }, verticalAngle{ 0.0f } {
 
     float FoV = 90.0f;
 
-    this->projectionMatrix = glm::perspective(glm::radians(FoV), float(render_consts::SCREEN_WIDTH)/float(render_consts::SCREEN_HEIGHT), 0.1f, 100.0f);
+    this->projectionMatrix = glm::perspective(glm::radians(FoV), float(render_consts::SCREEN_WIDTH)/float(render_consts::SCREEN_HEIGHT), 0.1f, 1000.0f);
 }
 
 glm::mat4 Camera::getViewMatrix() {
