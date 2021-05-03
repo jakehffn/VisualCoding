@@ -24,14 +24,14 @@ void SineWave::init(SDL_Window* window) {
 
 void SineWave::run() {
 
-    int blockWidth = 100;
-    int blockHeight = 100;
+    int blockWidth = 50;
+    int blockHeight = 50;
 
     createBlockArray(blockWidth, blockHeight);
 
-    CirclePath* path = new CirclePath(glm::vec3(0, 0, 0), 8, 5, 0.001);
-    PathCameraController* controller2 = new PathCameraController(clock, path);
-    scene->addCameraController(controller2);
+    CirclePath* circlePath = new CirclePath(glm::vec3(0, 0, 0), 50, 10, 0.001);
+    PathCameraController* circleCamera = new PathCameraController(clock, circlePath);
+    scene->addCameraController(circleCamera);
 
     // While application is running
     while(!input->quitProgram() && !input->isKeyDown(SDLK_ESCAPE)) {
@@ -42,7 +42,7 @@ void SineWave::run() {
             scene->nextCameraController();
         } 
 
-        modifyBlockArray(blockHeight*blockWidth);
+        modifyBlockArray(blockWidth, blockHeight);
         scene->render();
 
         // Update screen
@@ -64,23 +64,56 @@ void SineWave::createBlockArray(int width, int length) {
 
         for (int yy = 0; yy < length; yy++) {
             
-            int xPos = xx*2;
-            int yPos = yy*2;
+            float xPos = (xx - (float)(width)/2.0)*2.0;
+            float yPos = (yy - (float)(length)/2.0)*2.0;
 
-            scene->addInstance(objID, shaderID, glm::vec3(xPos, 0, yPos));
+            scene->addInstance(objID, shaderID, glm::vec3(xPos, 0, yPos), glm::vec3(1, 2, 1));
         }
     }
 }
 
-void SineWave::modifyBlockArray(int totalBlocks) {
+void SineWave::modifyBlockArray(int width, int length) {
 
-    float time = this->clock->getCumulativeTime()*0.001;
+    float time = this->clock->getCumulativeTime();
 
-    for (int xx = 0; xx < totalBlocks; xx++) {
+    for (int xx = 0; xx < width; xx++) {
 
-        Instance& currInstance = scene->getInstance(xx);
+        for (int yy = 0; yy < length; yy++) {
 
-        glm::vec3 prev = currInstance.getPosition();
-        currInstance.setPosition(glm::vec3(prev.x, sin(time - xx*0.01), prev.z));
+            int pos = xx * width + yy;
+
+            Instance& currInstance = scene->getInstance(pos);
+
+            float yPos = threeDimSine(time, xx - width/2, yy - length/2);
+            
+            glm::vec3 prev = currInstance.getPosition();
+            currInstance.setPosition(glm::vec3(prev.x, yPos, prev.z));
+        }
+
+        
     }
+}
+
+float SineWave::twoDimSine(float time, int xx, int yy) {
+
+    time = time * 0.001;
+    float amplitude = 2;
+    float phase = (xx + yy)*0.1;
+    float period = 2;
+
+    float yPos = amplitude*sin(period*(time + phase));
+
+    return yPos;
+}
+
+float SineWave::threeDimSine(float time, int xx, int yy) {
+
+    time = time * 0.007;
+    float amplitude = 3;
+    float phase = (xx*xx + yy*yy)*0.1;
+    float period = 3;
+
+    float yPos = amplitude*sin(period*sqrt(phase + time));
+
+    return yPos;
 }
