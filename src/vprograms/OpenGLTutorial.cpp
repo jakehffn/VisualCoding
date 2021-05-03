@@ -18,12 +18,11 @@ void OpenGLTutorial::init(SDL_Window* window) {
     // this->controller = new PathCameraController(clock, path);
     this->camera = new Camera(controller);
 
-    std::string vertexPath = "./src/vprograms/OpenGLTutorial/shaders/vertexShader.glsl";
-    std::string fragmentPath = "./src/vprograms/OpenGLTutorial/shaders/fragmentShader.glsl";
+    std::string vertexPath = "./src/shaderPrograms/TutorialShaderProgram/vertexShader.glsl";
+    std::string fragmentPath = "./src/shaderPrograms/TutorialShaderProgram/fragmentShader.glsl";
 
     programID = LoadShaders(vertexPath.c_str(), fragmentPath.c_str());
 
-    // Enable text input
     SDL_StartTextInput();
 
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
@@ -35,7 +34,6 @@ void OpenGLTutorial::init(SDL_Window* window) {
 
 void OpenGLTutorial::run() {
 
-    // Get a handle for our "MVP" uniform
     GLuint MatrixID = glGetUniformLocation(programID, "MVP");
 
     GLfloat g_vertex_buffer_data[objects::cubeSize];
@@ -90,15 +88,11 @@ void OpenGLTutorial::run() {
     glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
 
-    // While application is running
-    while(!input->quitProgram()) {
+    while(!input->quitProgram() && !input->isKeyDown(SDLK_ESCAPE)) {
 
-        
         clock->tick();
         input->update();
         camera->update();
-        
-        
 
         glm::mat4 ProjectionMatrix = camera->getProjectionMatrix();
         glm::mat4 ViewMatrix = camera->getViewMatrix();
@@ -106,17 +100,12 @@ void OpenGLTutorial::run() {
 
         glm::mat4 MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
 
-        // Clear the screen
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Use our shader
         glUseProgram(programID);
 
-        // Send our transformation to the currently bound shader, 
-        // in the "MVP" uniform
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
 
-        // 1rst attribute buffer : vertices
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
         glVertexAttribPointer(
@@ -128,7 +117,6 @@ void OpenGLTutorial::run() {
             (void*)0            // array buffer offset
         );
 
-        // 2nd attribute buffer : colors
         glEnableVertexAttribArray(1);
         glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
         glVertexAttribPointer(
@@ -140,11 +128,9 @@ void OpenGLTutorial::run() {
             (void*)0                          // array buffer offset
         );
 
-        // Draw the triangle !
-        glDrawArrays(GL_TRIANGLES, 0, 12*3); // 12*3 indices starting at 0 -> 12 triangles -> 6 squares
+        glDrawArrays(GL_TRIANGLES, 0, 12*3);
         glDisableVertexAttribArray(0);
 
-        // Update screen
         SDL_GL_SwapWindow(window);
     }
 
