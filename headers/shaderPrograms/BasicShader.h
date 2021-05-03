@@ -3,9 +3,9 @@
 #include "ShaderProgram.h"
 #include <string>
 
-class BasicShaderProgram : public ShaderProgram {
+class BasicShader : public ShaderProgram {
 public:
-    BasicShaderProgram();
+    BasicShader();
 
     GLuint getOpenGLShaderProgramID();
     void renderSetup(glm::mat4 model, glm::mat4 view, glm::mat4 projection);

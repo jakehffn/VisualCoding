@@ -1,6 +1,6 @@
-#include "BasicShaderProgram.h"
+#include "BasicShader.h"
 
-BasicShaderProgram::BasicShaderProgram() {
+BasicShader::BasicShader() {
     
     std::string vertexShaderPath = "./src/shaderPrograms/BasicShader/vertexShader.glsl";
     std::string fragmentShaderPath = "./src/shaderPrograms/BasicShader/fragmentShader.glsl";
@@ -13,11 +13,11 @@ BasicShaderProgram::BasicShaderProgram() {
     this->LightID = glGetUniformLocation(this->openGLShaderProgramID, "LightPosition_worldspace");
 }
 
-GLuint BasicShaderProgram::getOpenGLShaderProgramID() {
+GLuint BasicShader::getOpenGLShaderProgramID() {
     return this->openGLShaderProgramID;
 }
 
-void BasicShaderProgram::renderSetup(glm::mat4 model, glm::mat4 view, glm::mat4 projection) {
+void BasicShader::renderSetup(glm::mat4 model, glm::mat4 view, glm::mat4 projection) {
     
     glm::mat4 MVP = projection*view*model;
 

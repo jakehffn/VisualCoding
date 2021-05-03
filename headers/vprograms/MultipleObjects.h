@@ -15,7 +15,7 @@
 #include "Clock.h"
 #include "CirclePath.h"
 #include "LinePath.h"
-#include "BasicShaderProgram.h"
+#include "BasicShader.h"
 
 #include "UserCameraController.h"
 #include "PathCameraController.h"
