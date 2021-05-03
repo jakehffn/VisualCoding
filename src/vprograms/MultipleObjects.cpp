@@ -28,7 +28,7 @@ void MultipleObjects::run() {
 
     int shaderID = scene->addShaderProgram(shaderProgram);
 
-    char objPath[] = "C:\\Users\\Jaket\\OneDrive\\Documents\\Programming\\visualCoding\\src\\vprograms\\MultipleObjects\\objects\\cube.obj";
+    char objPath[] = "./src/objects/cube.obj";
 
     int objID = scene->addObject(objPath);
     int instanceID = scene->addInstance(objID, shaderID, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), glm::vec3(0, 0, 0));
