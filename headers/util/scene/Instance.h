@@ -17,7 +17,7 @@ public:
     glm::mat4 getModel();
 
     void setPosition(glm::vec3 position);
-    void addPosition(glm::vec3 addend);
+    void addPosition(glm::vec3 position);
     glm::vec3 getPosition();
 
     void setRotation(glm::vec3 rotation);
