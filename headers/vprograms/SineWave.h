@@ -9,8 +9,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "consts.h"
-
 #include "UserCameraController.h"
 #include "Clock.h"
 #include "CirclePath.h"
