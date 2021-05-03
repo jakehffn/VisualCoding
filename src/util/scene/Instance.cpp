@@ -21,13 +21,17 @@ void Instance::updateModel() {
         // Order matters
         this->model = glm::mat4(1);
 
-        this->model = glm::rotate(this->model, this->rotation.x, glm::vec3(1, 0, 0));
-        this->model = glm::rotate(this->model, this->rotation.y, glm::vec3(0, 1, 0));
-        this->model = glm::rotate(this->model, this->rotation.z, glm::vec3(0, 0, 1));
+        glm::mat4 rotate = glm::mat4(1);
+        
+        rotate = glm::rotate(rotate, this->rotation.x, glm::vec3(1, 0, 0));
+        rotate = glm::rotate(rotate, this->rotation.y, glm::vec3(0, 1, 0));
+        rotate = glm::rotate(rotate, this->rotation.z, glm::vec3(0, 0, 1));
 
-        this->model = glm::scale(this->model, this->scale);
+        glm::mat4 scale = glm::scale(glm::mat4(1), this->scale);
 
-        this->model = glm::translate(this->model, this->position);
+        glm::mat4 translate = glm::translate(glm::mat4(1), this->position);
+
+        this->model = translate * scale * rotate;
 
         needsUpdate = false;
     }
