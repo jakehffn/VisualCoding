@@ -19,6 +19,7 @@ public:
     int addObject(char* objPath);
     // Returns ID for instance (currently just vector pos)
     int addInstance(int objID, int shaderProgramID, glm::vec3 position, glm::vec3 scale, glm::vec3 rotation);
+    int addInstance(int objID, int shaderProgramID, glm::vec3 position, glm::vec3 scale);
     int addInstance(int objID, int shaderProgramID, glm::vec3 position);
     Instance& getInstance(int instanceID);
 

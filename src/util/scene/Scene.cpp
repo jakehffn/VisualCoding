@@ -37,6 +37,10 @@ int Scene::addInstance(int objID, int shaderProgramID, glm::vec3 position, glm::
     return instances.size() - 1;
 }
 
+int Scene::addInstance(int objID, int shaderProgramID, glm::vec3 position, glm::vec3 scale) {
+    return this->addInstance(objID, shaderProgramID, position, scale, glm::vec3(0, 0, 0));
+}
+
 int Scene::addInstance(int objID, int shaderProgramID, glm::vec3 position) {
     return this->addInstance(objID, shaderProgramID, position, glm::vec3(1, 1, 1), glm::vec3(0, 0, 0));
 }
