@@ -13,28 +13,28 @@ void Input::update() {
 
     // For every abridged input, if it is in keyInputs, remove it
     //  This will cause any adbridged input to only be active for one frame
-    for(auto abridgedInput : abridgedInputs) {
+    for (auto abridgedInput : abridgedInputs) {
         keyInputs.erase(abridgedInput);
     }
 
     // Handle events on queue
-    while(SDL_PollEvent( &e ) != 0) {
+    while (SDL_PollEvent( &e ) != 0) {
         
         // If windows native quit action, flag quit
-        if(e.type == SDL_QUIT) {
+        if (e.type == SDL_QUIT) {
 
             this->quit = true;
         } 
         
         // If it is a key event...
-        if(e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
+        if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
             
             int isKeydown = (int)(e.type == SDL_KEYDOWN);
 
             SDL_Keycode currEventKey = e.key.keysym.sym;
 
             // On keydown only, toggle keys' states are changed
-            if(toggleInputs.count(currEventKey) == 1 && isKeydown) {
+            if (toggleInputs.count(currEventKey) == 1 && isKeydown) {
 
                 if (keyInputs.count(currEventKey) == 1) {
 
