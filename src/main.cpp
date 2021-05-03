@@ -12,6 +12,7 @@
 
 #include "OpenGLTutorial.h"
 #include "MultipleObjects.h"
+#include "SineWave.h"
 
 bool init();
 void eventHandler();
@@ -88,6 +89,10 @@ void applyProgram(std::string input) {
 
 	if (input == "MultipleObjects") {
 		program = new MultipleObjects();
+	}
+
+	if (input == "SineWave") {
+		program = new SineWave();
 	}
 
 }
