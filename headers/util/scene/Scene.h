@@ -20,7 +20,7 @@ public:
     // Returns ID for instance (currently just vector pos)
     int addInstance(int objID, int shaderProgramID, glm::vec3 position, glm::vec3 scale, glm::vec3 rotation);
     int addInstance(int objID, int shaderProgramID, glm::vec3 position);
-    Instance* getInstance(int instanceID);
+    Instance& getInstance(int instanceID);
 
     // Returns the position of added camera controller
     int addCameraController(CameraController* cameraController);

@@ -41,11 +41,11 @@ int Scene::addInstance(int objID, int shaderProgramID, glm::vec3 position) {
     return this->addInstance(objID, shaderProgramID, position, glm::vec3(1, 1, 1), glm::vec3(0, 0, 0));
 }
 
-Instance* Scene::getInstance(int instanceID) {
+Instance& Scene::getInstance(int instanceID) {
 
     assert(instanceID < instances.size());
 
-    return &(this->instances.at(instanceID));
+    return this->instances[instanceID];
 }
 
 int Scene::addCameraController(CameraController* cameraController) {

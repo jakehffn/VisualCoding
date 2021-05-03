@@ -21,7 +21,7 @@ void BasicShaderProgram::renderSetup(glm::mat4 model, glm::mat4 view, glm::mat4 
     
     glm::mat4 MVP = projection*view*model;
 
-    glm::vec3 lightPos = glm::vec3(4,10,4);
+    glm::vec3 lightPos = glm::vec3(4,15,4);
     glUniform3f(this->LightID, lightPos.x, lightPos.y, lightPos.z);
 
     glUniformMatrix4fv(this->MVPuniformID, 1, GL_FALSE, &MVP[0][0]);

@@ -46,7 +46,11 @@ void Instance::setPosition(glm::vec3 position) {
 }
 
 void Instance::addPosition(glm::vec3 position) {
+
+    assert(("addPosition() called on static instance", !isStatic));
+
     this->position += position;
+    needsUpdate = true;
 }
 
 glm::vec3 Instance::getPosition() {
