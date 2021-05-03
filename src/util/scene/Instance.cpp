@@ -45,6 +45,10 @@ void Instance::setPosition(glm::vec3 position) {
     needsUpdate = true;
 }
 
+void Instance::addPosition(glm::vec3 addend) {
+    this->position += addend;
+}
+
 glm::vec3 Instance::getPosition() {
     return this->position;
 }
