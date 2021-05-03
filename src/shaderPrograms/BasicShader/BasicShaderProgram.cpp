@@ -2,8 +2,8 @@
 
 BasicShaderProgram::BasicShaderProgram() {
     
-    std::string vertexShaderPath = "./src/shaderPrograms/BasicShaderProgram/vertexShader.glsl";
-    std::string fragmentShaderPath = "./src/shaderPrograms/BasicShaderProgram/fragmentShader.glsl";
+    std::string vertexShaderPath = "./src/shaderPrograms/BasicShader/vertexShader.glsl";
+    std::string fragmentShaderPath = "./src/shaderPrograms/BasicShader/fragmentShader.glsl";
 
     this->openGLShaderProgramID = LoadShaders(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
 

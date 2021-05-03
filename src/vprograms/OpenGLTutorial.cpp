@@ -18,8 +18,8 @@ void OpenGLTutorial::init(SDL_Window* window) {
     // this->controller = new PathCameraController(clock, path);
     this->camera = new Camera(controller);
 
-    std::string vertexPath = "./src/shaderPrograms/TutorialShaderProgram/vertexShader.glsl";
-    std::string fragmentPath = "./src/shaderPrograms/TutorialShaderProgram/fragmentShader.glsl";
+    std::string vertexPath = "./src/shaderPrograms/TutorialShader/vertexShader.glsl";
+    std::string fragmentPath = "./src/shaderPrograms/TutorialShader/fragmentShader.glsl";
 
     programID = LoadShaders(vertexPath.c_str(), fragmentPath.c_str());
 
