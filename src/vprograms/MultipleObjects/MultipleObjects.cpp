@@ -38,7 +38,7 @@ void MultipleObjects::run() {
     scene->addCameraController(controller2);
 
     // While application is running
-    while(!input->quitProgram()) {
+    while(!input->quitProgram() && !input->isKeyDown(SDLK_ESCAPE)) {
 
         clock->tick();
         
