@@ -24,7 +24,7 @@ void MultipleObjects::init(SDL_Window* window) {
 
 void MultipleObjects::run() {
 
-    ShaderProgram* shaderProgram = new BasicShaderProgram();
+    ShaderProgram* shaderProgram = new BasicShader();
 
     int shaderID = scene->addShaderProgram(shaderProgram);
 
