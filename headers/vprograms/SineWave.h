@@ -14,6 +14,7 @@
 #include "CirclePath.h"
 #include "LinePath.h"
 #include "BasicShader.h"
+#include "TopographicShader.h"
 
 #include "UserCameraController.h"
 #include "PathCameraController.h"

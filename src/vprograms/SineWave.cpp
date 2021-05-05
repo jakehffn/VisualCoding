@@ -24,12 +24,12 @@ void SineWave::init(SDL_Window* window) {
 
 void SineWave::run() {
 
-    int blockWidth = 500;
-    int blockHeight = 500;
+    int blockWidth = 50;
+    int blockHeight = 50;
 
     createBlockArray(blockWidth, blockHeight);
 
-    CirclePath* circlePath = new CirclePath(glm::vec3(0, 0, 0), 100, 10, 0.001);
+    CirclePath* circlePath = new CirclePath(glm::vec3(0, 0, 0), 100, 30, 0.1);
     PathCameraController* circleCamera = new PathCameraController(clock, circlePath);
     scene->addCameraController(circleCamera);
 
@@ -59,7 +59,7 @@ void SineWave::run() {
 
 void SineWave::createBlockArray(int width, int length) {
 
-    ShaderProgram* shaderProgram = new BasicShader();
+    ShaderProgram* shaderProgram = new TopographicShader(-2, 2, glm::vec3(0, 1, 0), glm::vec3(1, 0, 0));
     int shaderID = scene->addShaderProgram(shaderProgram);
 
     char objPath[] = "./src/objects/cube.obj";
@@ -101,7 +101,7 @@ void SineWave::modifyBlockArray(int width, int length) {
 
 float SineWave::twoDimSine(float time, int xx, int yy) {
 
-    time = time * 0.1;
+    time = time * 0.5;
     float amplitude = 2;
     float phase = (xx + yy)*0.1;
     float period = 2;
@@ -113,7 +113,7 @@ float SineWave::twoDimSine(float time, int xx, int yy) {
 
 float SineWave::threeDimSine(float time, int xx, int yy) {
 
-    time = time * 0.7;
+    time = time * 1.5;
     float amplitude = 3;
     float phase = (xx*xx + yy*yy)*0.1;
     float period = 3;
