@@ -17,8 +17,6 @@ TopographicShader::TopographicShader(float yLow, float yHigh, glm::vec3 lowColor
     this->yHighID = glGetUniformLocation(this->openGLShaderProgramID, "yHigh");
     this->lowColorID = glGetUniformLocation(this->openGLShaderProgramID, "lowColor");
     this->highColorID = glGetUniformLocation(this->openGLShaderProgramID, "highColor");
-
-    printf("\n\nhighColorID: %i\n", highColorID);
 }
 
 GLuint TopographicShader::getOpenGLShaderProgramID() {

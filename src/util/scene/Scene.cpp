@@ -8,7 +8,8 @@ Scene::Scene(SDL_Window* window, Clock* clock, Input* input, CameraController* c
         this->cameraControllers = std::vector<CameraController*>{ cameraController };
         this->camera = Camera(this->cameraControllers.at(0));
 
-        glClearColor(0.0f, 0.4f, 0.4f, 0.0f);
+        // glClearColor(0.0f, 0.4f, 0.4f, 0.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);

@@ -59,7 +59,7 @@ void SineWave::run() {
 
 void SineWave::createBlockArray(int width, int length) {
 
-    ShaderProgram* shaderProgram = new TopographicShader(-2, 2, glm::vec3(0, 1, 0), glm::vec3(1, 0, 0));
+    ShaderProgram* shaderProgram = new TopographicShader(-2, 2, glm::vec3(0.15, 0, 0.26), glm::vec3(.1, .1, 2));
     int shaderID = scene->addShaderProgram(shaderProgram);
 
     char objPath[] = "./src/objects/cube.obj";
@@ -89,7 +89,7 @@ void SineWave::modifyBlockArray(int width, int length) {
 
             Instance& currInstance = scene->getInstance(pos);
 
-            float yPos = threeDimSine(time, xx - width/2, yy - length/2);
+            float yPos = threeDimTangent(time, xx - width/2, yy - length/2);
             
             glm::vec3 prev = currInstance.getPosition();
             currInstance.setPosition(glm::vec3(prev.x, yPos, prev.z));
@@ -119,6 +119,18 @@ float SineWave::threeDimSine(float time, int xx, int yy) {
     float period = 3;
 
     float yPos = amplitude*sin(period*sqrt(phase + time));
+
+    return yPos;
+}
+
+float SineWave::threeDimTangent(float time, int xx, int yy) {
+
+    time = time * 1.5;
+    float amplitude = 3;
+    float phase = (xx*xx + yy*yy)*0.1;
+    float period = 3;
+
+    float yPos = amplitude*tan(period*sqrt(phase + time));
 
     return yPos;
 }

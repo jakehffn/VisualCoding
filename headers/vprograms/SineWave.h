@@ -31,6 +31,7 @@ private:
 
     float twoDimSine(float time, int xx, int yy);
     float threeDimSine(float time, int xx, int yy);
+    float threeDimTangent(float time, int xx, int yy);
 
     GLuint programID = 0;
     SDL_Window* window = NULL;
