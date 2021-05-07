@@ -19,9 +19,9 @@
 #include "UserCameraController.h"
 #include "PathCameraController.h"
 
-class SineWave : public VisualProgram {
+class MathVisualizer : public VisualProgram {
 public:
-    ~SineWave();
+    ~MathVisualizer();
     void init(SDL_Window* window);
     void run();
     

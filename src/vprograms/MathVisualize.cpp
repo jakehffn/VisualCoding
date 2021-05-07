@@ -1,11 +1,11 @@
-#include "SineWave.h"
+#include "MathVisualizer.h"
 
-SineWave::~SineWave() {
+MathVisualizer::~MathVisualizer() {
     // Deallocate program
     glDeleteProgram(programID);
 }
 
-void SineWave::init(SDL_Window* window) {
+void MathVisualizer::init(SDL_Window* window) {
 
     this->window = window;
 
@@ -22,7 +22,7 @@ void SineWave::init(SDL_Window* window) {
     SDL_StartTextInput();
 }
 
-void SineWave::run() {
+void MathVisualizer::run() {
 
     int blockWidth = 50;
     int blockHeight = 50;
@@ -57,7 +57,7 @@ void SineWave::run() {
     SDL_StopTextInput();
 }
 
-void SineWave::createBlockArray(int width, int length) {
+void MathVisualizer::createBlockArray(int width, int length) {
 
     ShaderProgram* shaderProgram = new TopographicShader(-2, 2, glm::vec3(0.15, 0, 0.26), glm::vec3(.1, .1, 2));
     int shaderID = scene->addShaderProgram(shaderProgram);
@@ -77,7 +77,7 @@ void SineWave::createBlockArray(int width, int length) {
     }
 }
 
-void SineWave::modifyBlockArray(int width, int length) {
+void MathVisualizer::modifyBlockArray(int width, int length) {
 
     float time = this->clock->getCumulativeTime();
 
@@ -99,7 +99,7 @@ void SineWave::modifyBlockArray(int width, int length) {
     }
 }
 
-float SineWave::twoDimSine(float time, int xx, int yy) {
+float MathVisualizer::twoDimSine(float time, int xx, int yy) {
 
     time = time * 0.5;
     float amplitude = 2;
@@ -111,7 +111,7 @@ float SineWave::twoDimSine(float time, int xx, int yy) {
     return yPos;
 }
 
-float SineWave::threeDimSine(float time, int xx, int yy) {
+float MathVisualizer::threeDimSine(float time, int xx, int yy) {
 
     time = time * 1.5;
     float amplitude = 3;
@@ -123,7 +123,7 @@ float SineWave::threeDimSine(float time, int xx, int yy) {
     return yPos;
 }
 
-float SineWave::threeDimTangent(float time, int xx, int yy) {
+float MathVisualizer::threeDimTangent(float time, int xx, int yy) {
 
     time = time * 1.5;
     float amplitude = 3;
