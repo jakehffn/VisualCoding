@@ -32,6 +32,7 @@ void MultipleObjects::run() {
 
     int objID = scene->addObject(objPath);
     int instanceID = scene->addInstance(objID, shaderID, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), glm::vec3(0, 0, 0));
+    int instanceID2 = scene->addInstance(objID, shaderID, glm::vec3(4, 0, 0), glm::vec3(1, 1, 1), glm::vec3(0, 0, 0));
 
     CirclePath* path = new CirclePath(glm::vec3(0, 0, 0), 8, 5, 0.001);
     PathCameraController* controller2 = new PathCameraController(clock, path);
