@@ -15,7 +15,6 @@
 #include "MathVisualizer.h"
 
 bool init();
-void eventHandler();
 void close();
 
 SDL_Window* window = NULL;
@@ -99,6 +98,8 @@ void applyProgram(std::string input) {
 
 // Parameters necessary for SDL_Main
 int main(int argv, char** args) {
+
+	printf("Hello");
 
 	std::string input;
 
