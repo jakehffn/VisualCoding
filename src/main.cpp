@@ -10,8 +10,6 @@
 #include "consts.h"
 #include "VisualProgram.h"
 
-#include "OpenGLTutorial.h"
-#include "MultipleObjects.h"
 #include "MathVisualizer.h"
 
 bool init();
@@ -82,14 +80,6 @@ void close() {
 
 void applyProgram(std::string input) {
 
-	if (input == "OpenGLTutorial") {
-		program = new OpenGLTutorial();
-	} 
-
-	if (input == "MultipleObjects") {
-		program = new MultipleObjects();
-	}
-
 	if (input == "MathVisualizer") {
 		program = new MathVisualizer();
 	}
@@ -99,12 +89,10 @@ void applyProgram(std::string input) {
 // Parameters necessary for SDL_Main
 int main(int argv, char** args) {
 
-	printf("Hello");
-
 	std::string input;
 
 	if (argv == 1) {
-		input = std::string("OpenGLTutorial");
+		input = std::string("MathVisualizer");
 	} else {
 		input = std::string(args[1]);
 	}

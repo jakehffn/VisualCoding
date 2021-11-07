@@ -3,8 +3,8 @@
 InstancedShader::InstancedShader(float yLow, float yHigh, glm::vec3 lowColor, glm::vec3 highColor) :
     yLow{ yLow }, yHigh{ yHigh }, lowColor{ lowColor }, highColor{ highColor } {
     
-    std::string vertexShaderPath = "./src/shaderPrograms/TopographicShader/vertexShader.glsl";
-    std::string fragmentShaderPath = "./src/shaderPrograms/TopographicShader/fragmentShader.glsl";
+    std::string vertexShaderPath = "./src/shaderPrograms/InstancedShader/vertexShader.glsl";
+    std::string fragmentShaderPath = "./src/shaderPrograms/InstancedShader/fragmentShader.glsl";
 
     this->openGLShaderProgramID = LoadShaders(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
 

@@ -1,6 +1,6 @@
 #include "Object.h"
 
-Object::Object(char* OBJPath) {
+Object::Object(char* OBJPath, GLuint shaderProgramID) : instances{ std::vector<Instance>() }, openGLShaderProgramID{ shaderProgramID } {
 
 	bool res = loadOBJ(OBJPath, this->vertices, this->uvs, this->normals);
     
@@ -54,7 +54,69 @@ Object::Object(char* OBJPath) {
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
 
+    glGenBuffers(1, &this->modelsBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, this->modelsBuffer);
+    glBufferData(GL_ARRAY_BUFFER, 1 * sizeof(glm::mat4), &this->modelMatrices.data()[0], GL_STATIC_DRAW);
+  
+    // vertex attributes
+    std::size_t vec4Size = sizeof(glm::vec4);
+    glEnableVertexAttribArray(3); 
+    glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)0);
+    glEnableVertexAttribArray(4); 
+    glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(1 * vec4Size));
+    glEnableVertexAttribArray(5); 
+    glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(2 * vec4Size));
+    glEnableVertexAttribArray(6); 
+    glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(3 * vec4Size));
+
+    glVertexAttribDivisor(3, 1);
+    glVertexAttribDivisor(4, 1);
+    glVertexAttribDivisor(5, 1);
+    glVertexAttribDivisor(6, 1);
+
     glBindVertexArray(0);
+}
+
+int Object::addInstance(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) {
+
+    this->instances.emplace_back(position, scale, rotation);
+
+    // glBindVertexArray(this->VAO);
+    // glBindBuffer(GL_ARRAY_BUFFER, this->modelsBuffer);
+    // glBufferData(GL_ARRAY_BUFFER, 2500 * sizeof(glm::mat4), &this->modelMatrices.data()[0], GL_STATIC_DRAW);
+
+    // // vertex attributes
+    // std::size_t vec4Size = sizeof(glm::vec4);
+    // glEnableVertexAttribArray(3); 
+    // glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)0);
+    // glEnableVertexAttribArray(4); 
+    // glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(1 * vec4Size));
+    // glEnableVertexAttribArray(5); 
+    // glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(2 * vec4Size));
+    // glEnableVertexAttribArray(6); 
+    // glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(3 * vec4Size));
+
+    // glVertexAttribDivisor(3, 1);
+    // glVertexAttribDivisor(4, 1);
+    // glVertexAttribDivisor(5, 1);
+    // glVertexAttribDivisor(6, 1);
+
+    // printf("%d\n", this->modelMatrices.size());
+    
+    // glBindVertexArray(0);
+
+    return this->instances.size() - 1;
+
+}
+
+Instance& Object::getInstance(int instanceID) {
+
+    assert(instanceID < instances.size());
+    return this->instances[instanceID];
+}
+
+GLuint Object::getShaderProgramID() {
+    return this->openGLShaderProgramID;
 }
 
 GLuint Object::getVAO() {
@@ -63,4 +125,23 @@ GLuint Object::getVAO() {
 
 int Object::getNumVertices() {
     return this->vertices.size();
+}
+
+int Object::getNumInstances() {
+    return this->instances.size();
+}
+
+void Object::updateModelMatrices() {
+    
+    this->modelMatrices.clear();
+
+    for (auto& instance : instances) {
+
+        this->modelMatrices.push_back(instance.getModel());
+    }
+}
+
+glm::mat4* Object::getModelMatrices() {
+
+    return modelMatrices.data();
 }

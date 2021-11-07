@@ -3,7 +3,7 @@
 Scene::Scene(SDL_Window* window, Clock* clock, Input* input, CameraController* cameraController) :
     window{ window }, clock{ clock }, input{ input }, cameraControllerPosition{ 0 },
     shaderPrograms{ std::vector<ShaderProgram*>() }, 
-    objects{ std::vector<Object>() }, instances{ std::vector<Instance>() } {
+    objects{ std::vector<Object>() } {
 
         this->cameraControllers = std::vector<CameraController*>{ cameraController };
         this->camera = Camera(this->cameraControllers.at(0));
@@ -22,35 +22,35 @@ int Scene::addShaderProgram(ShaderProgram* shaderProgram) {
     return this->shaderPrograms.size() - 1;
 }
 
-int Scene::addObject(char* objPath) {
+int Scene::addObject(char* objPath, int shaderProgramID) {
 
-    Object newObject = Object(objPath);
+    Object newObject = Object(objPath, shaderProgramID);
     this->objects.push_back(newObject);
     return this->objects.size() - 1;
 }
 
-int Scene::addInstance(int objID, int shaderProgramID, glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) {
+int Scene::addInstance(int objID, glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) {
     
     Object* instanceObject = &(this->objects.at(objID));
 
-    instances.emplace_back(instanceObject, shaderProgramID, position, scale, rotation);
+    int instanceID = instanceObject->addInstance(position, scale, rotation);
 
-    return instances.size() - 1;
+    return instanceID;
 }
 
-int Scene::addInstance(int objID, int shaderProgramID, glm::vec3 position, glm::vec3 scale) {
-    return this->addInstance(objID, shaderProgramID, position, scale, glm::vec3(0, 0, 0));
+int Scene::addInstance(int objID, glm::vec3 position, glm::vec3 scale) {
+    return this->addInstance(objID, position, scale, glm::vec3(0, 0, 0));
 }
 
-int Scene::addInstance(int objID, int shaderProgramID, glm::vec3 position) {
-    return this->addInstance(objID, shaderProgramID, position, glm::vec3(1, 1, 1), glm::vec3(0, 0, 0));
+int Scene::addInstance(int objID, glm::vec3 position) {
+    return this->addInstance(objID, position, glm::vec3(1, 1, 1), glm::vec3(0, 0, 0));
 }
 
-Instance& Scene::getInstance(int instanceID) {
+Instance& Scene::getInstance(int objID, int instanceID) {
 
-    assert(instanceID < instances.size());
+    assert(objID < objects.size());
 
-    return this->instances[instanceID];
+    return this->objects[objID].getInstance(instanceID);
 }
 
 int Scene::addCameraController(CameraController* cameraController) {
@@ -86,27 +86,32 @@ void Scene::render() {
     // Clear the screen
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    for (auto& instance : instances) {
+    for (auto& object : objects) {
 
-        instance.updateModel();
+        object.updateModelMatrices();
 
-        int instanceShaderID = instance.getShaderProgramID();
+        int instanceShaderID = object.getShaderProgramID();
 
         assert(instanceShaderID < shaderPrograms.size());
 
-        // Use our shader
+        // Use shader
         ShaderProgram* instanceShader = this->shaderPrograms.at(instanceShaderID);
         GLuint openGLShaderProgramID = instanceShader->getOpenGLShaderProgramID();
         glUseProgram(openGLShaderProgramID);
 
-        glm::mat4 model = instance.getModel();
+        // glm::mat4 model = instance.getModel();
         glm::mat4 view = camera.getViewMatrix();
         glm::mat4 projection = camera.getProjectionMatrix();
 
-        instanceShader->renderSetup(model, view, projection);
+        instanceShader->renderSetup(view, projection);
         
-        glBindVertexArray(instance.getObjectVAO());
-        glDrawArrays(GL_TRIANGLES, 0, instance.getObjectNumVertices()); 
+        glBindVertexArray(object.getVAO());
+        // glDrawArrays(GL_TRIANGLES, 0, .getObjectNumVertices()); 
+        glDrawElementsInstanced(
+            GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0, object.getNumInstances()
+        );
         glBindVertexArray(0);
+
+        printf("Instances: %d VAO: %d\r", object.getNumInstances(), object.getVAO());
     }
 }

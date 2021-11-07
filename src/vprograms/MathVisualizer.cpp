@@ -24,8 +24,8 @@ void MathVisualizer::init(SDL_Window* window) {
 
 void MathVisualizer::run() {
 
-    int blockWidth = 50;
-    int blockHeight = 50;
+    int blockWidth = 1;
+    int blockHeight = 1;
 
     createBlockArray(blockWidth, blockHeight);
 
@@ -39,7 +39,7 @@ void MathVisualizer::run() {
     while(!input->quitProgram() && !input->isKeyDown(SDLK_ESCAPE)) {
 
         clock->tick();
-        printf("FPS: %f\r", this->clock->getAverageFPS());
+        // printf("FPS: %f\r", this->clock->getAverageFPS());
         // std::cout << clock->getFPS();
         // clock->getFPS();
         
@@ -47,7 +47,7 @@ void MathVisualizer::run() {
             scene->nextCameraController();
         } 
 
-        modifyBlockArray(blockWidth, blockHeight);
+        // modifyBlockArray(blockWidth, blockHeight);
         scene->render();
 
         // Update screen
@@ -59,11 +59,11 @@ void MathVisualizer::run() {
 
 void MathVisualizer::createBlockArray(int width, int length) {
 
-    ShaderProgram* shaderProgram = new TopographicShader(-2, 2, glm::vec3(0.15, 0, 0.26), glm::vec3(.1, .1, 2));
+    ShaderProgram* shaderProgram = new InstancedShader(-2, 2, glm::vec3(0.15, 0, 0.26), glm::vec3(.1, .1, 2));
     int shaderID = scene->addShaderProgram(shaderProgram);
 
     char objPath[] = "./src/objects/cube.obj";
-    int objID = scene->addObject(objPath);
+    int objID = scene->addObject(objPath, shaderID);
 
     for (int xx = 0; xx < width; xx++) {
 
@@ -72,7 +72,7 @@ void MathVisualizer::createBlockArray(int width, int length) {
             float xPos = (xx - (float)(width)/2.0)*2.0;
             float yPos = (yy - (float)(length)/2.0)*2.0;
 
-            scene->addInstance(objID, shaderID, glm::vec3(xPos, 0, yPos), glm::vec3(1, 2, 1));
+            scene->addInstance(objID, glm::vec3(xPos, 0, yPos), glm::vec3(1, 2, 1));
         }
     }
 }
@@ -87,7 +87,7 @@ void MathVisualizer::modifyBlockArray(int width, int length) {
 
             int pos = xx * width + yy;
 
-            Instance& currInstance = scene->getInstance(pos);
+            Instance& currInstance = scene->getInstance(0, pos);
 
             float yPos = threeDimTangent(time, xx - width/2, yy - length/2);
             

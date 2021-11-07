@@ -13,8 +13,7 @@
 #include "Clock.h"
 #include "CirclePath.h"
 #include "LinePath.h"
-#include "BasicShader.h"
-#include "TopographicShader.h"
+#include "InstancedShader.h"
 
 #include "UserCameraController.h"
 #include "PathCameraController.h"
