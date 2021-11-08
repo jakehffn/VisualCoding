@@ -106,12 +106,15 @@ void Scene::render() {
         instanceShader->renderSetup(view, projection);
         
         glBindVertexArray(object.getVAO());
-        // glDrawArrays(GL_TRIANGLES, 0, .getObjectNumVertices()); 
-        glDrawElementsInstanced(
-            GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0, object.getNumInstances()
-        );
+        // glDrawArrays(GL_TRIANGLES, 0, object.getNumVertices()); 
+        glDrawArraysInstanced(GL_TRIANGLES, 0, object.getNumVertices(), object.getNumInstances());
         glBindVertexArray(0);
 
-        printf("Instances: %d VAO: %d\r", object.getNumInstances(), object.getVAO());
+        // GLenum err;
+        // while((err = glGetError()) != GL_NO_ERROR) {
+        //     printf("\n\nError: %d\n\n", err);
+        // }
+
+        // printf("Instances: %d VAO: %d\r", object.getNumInstances(), object.getVAO());
     }
 }

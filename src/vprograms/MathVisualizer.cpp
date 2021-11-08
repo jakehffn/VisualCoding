@@ -24,8 +24,8 @@ void MathVisualizer::init(SDL_Window* window) {
 
 void MathVisualizer::run() {
 
-    int blockWidth = 1;
-    int blockHeight = 1;
+    int blockWidth = 100;
+    int blockHeight = 100;
 
     createBlockArray(blockWidth, blockHeight);
 
@@ -39,15 +39,13 @@ void MathVisualizer::run() {
     while(!input->quitProgram() && !input->isKeyDown(SDLK_ESCAPE)) {
 
         clock->tick();
-        // printf("FPS: %f\r", this->clock->getAverageFPS());
-        // std::cout << clock->getFPS();
-        // clock->getFPS();
+        printf("FPS: %f\r", this->clock->getAverageFPS());
         
         if (input->isKeyDown(SDLK_c)) {
             scene->nextCameraController();
         } 
 
-        // modifyBlockArray(blockWidth, blockHeight);
+        modifyBlockArray(blockWidth, blockHeight);
         scene->render();
 
         // Update screen
@@ -87,7 +85,7 @@ void MathVisualizer::modifyBlockArray(int width, int length) {
 
             int pos = xx * width + yy;
 
-            Instance& currInstance = scene->getInstance(0, pos);
+            Instance& currInstance = scene->getInstance(0, pos); // Block objID is 0
 
             float yPos = threeDimTangent(time, xx - width/2, yy - length/2);
             

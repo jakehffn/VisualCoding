@@ -5,7 +5,10 @@ layout(location = 0) in vec3 vertexPosition_modelspace;
 layout(location = 1) in vec2 vertexUV;
 layout(location = 2) in vec3 vertexNormal_modelspace;
 // Model Matrix
-layout(location = 3) in mat4 M;
+layout(location = 3) in vec4 M0;
+layout(location = 4) in vec4 M1;
+layout(location = 5) in vec4 M2;
+layout(location = 6) in vec4 M3;
 
 // Output data ; will be interpolated for each fragment.
 out vec2 UV;
@@ -28,8 +31,11 @@ uniform vec3 highColor;
 
 void main(){
 
+	mat4 M = mat4(M0, M1, M2, M3);
+
 	// Output position of the vertex, in clip space : MVP * position
 	gl_Position =  P * V * M * vec4(vertexPosition_modelspace,1);
+	// gl_Position = vec4(200);
 
 	// Position of the vertex, in worldspace : M * position
 	Position_worldspace = (M * vec4(vertexPosition_modelspace,1)).xyz;
