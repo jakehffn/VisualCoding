@@ -24,8 +24,8 @@ void MathVisualizer::init(SDL_Window* window) {
 
 void MathVisualizer::run() {
 
-    int blockWidth = 50;
-    int blockHeight = 50;
+    int blockWidth = 100;
+    int blockHeight = 100;
 
     createBlockArray(blockWidth, blockHeight);
 
