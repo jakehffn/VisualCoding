@@ -24,8 +24,8 @@ void MathVisualizer::init(SDL_Window* window) {
 
 void MathVisualizer::run() {
 
-    int blockWidth = 100;
-    int blockHeight = 100;
+    int blockWidth = 50;
+    int blockHeight = 50;
 
     createBlockArray(blockWidth, blockHeight);
 
@@ -73,6 +73,8 @@ void MathVisualizer::createBlockArray(int width, int length) {
             scene->addInstance(objID, glm::vec3(xPos, 0, yPos), glm::vec3(1, 2, 1));
         }
     }
+    
+    scene->updateObject(objID);
 }
 
 void MathVisualizer::modifyBlockArray(int width, int length) {
@@ -87,6 +89,7 @@ void MathVisualizer::modifyBlockArray(int width, int length) {
 
             Instance& currInstance = scene->getInstance(0, pos); // Block objID is 0
 
+            // float yPos = threeDimTangent(time, xx - width/2, yy - length/2);
             float yPos = threeDimTangent(time, xx - width/2, yy - length/2);
             
             glm::vec3 prev = currInstance.getPosition();

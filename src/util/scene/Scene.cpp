@@ -29,6 +29,10 @@ int Scene::addObject(char* objPath, int shaderProgramID) {
     return this->objects.size() - 1;
 }
 
+void Scene::updateObject(int objID) {
+    this->objects.at(objID).updateModelMatrices();
+}
+
 int Scene::addInstance(int objID, glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) {
     
     Object* instanceObject = &(this->objects.at(objID));
