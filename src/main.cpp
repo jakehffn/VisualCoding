@@ -78,6 +78,8 @@ bool init(std::string programParam, bool renderParam) {
 
 void close() {
 
+	program->~VisualProgram();
+
 	// Destroy window	
 	SDL_DestroyWindow(window);
 	window = NULL;

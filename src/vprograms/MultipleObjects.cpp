@@ -41,6 +41,10 @@ void MultipleObjects::run() {
 
         // Update screen
         SDL_GL_SwapWindow(window);
+
+        // TODO: Figure out how to have this done through base class
+        glReadPixels(0, 0, render_consts::SCREEN_WIDTH, render_consts::SCREEN_HEIGHT, GL_RGBA, GL_UNSIGNED_BYTE, this->frameBuffer);
+        fwrite(this->frameBuffer, sizeof(int)*render_consts::SCREEN_WIDTH*render_consts::SCREEN_HEIGHT, 1, ffmpeg);
     }
 
     SDL_StopTextInput();
