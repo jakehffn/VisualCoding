@@ -1,25 +1,16 @@
 #include "MathVisualizer.h"
 
+MathVisualizer::MathVisualizer(SDL_Window* window, bool renderParam) :
+    VisualProgram{ window, renderParam } {}
+
 MathVisualizer::~MathVisualizer() {
     // Deallocate program
     glDeleteProgram(programID);
 }
 
-void MathVisualizer::init(SDL_Window* window) {
-
-    this->window = window;
-
-    this->clock = new Clock();
-    this->input = new Input();
-
+void MathVisualizer::init() {
+    printf("\nInit\n");
     this->input->setAbridge(SDLK_c);
-
-    this->cameraController = new UserCameraController(this->window, this->clock, this->input);
-
-    this->scene = new Scene(this->window, this->clock, this->input, this->cameraController);
-
-    // Enable text input
-    SDL_StartTextInput();
 }
 
 void MathVisualizer::run() {
@@ -33,7 +24,7 @@ void MathVisualizer::run() {
     PathCameraController* circleCamera = new PathCameraController(clock, circlePath);
     scene->addCameraController(circleCamera);
 
-    printf("\n\n");
+    printf("\n\nBegin");
 
     // While application is running
     while(!input->quitProgram() && !input->isKeyDown(SDLK_ESCAPE)) {

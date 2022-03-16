@@ -1,7 +1,6 @@
 #pragma once
 
 #include "VisualProgram.h"
-#include "Scene.h"
 
 #include <string>
 #include <iostream>
@@ -11,28 +10,16 @@
 
 #include "consts.h"
 
-#include "UserCameraController.h"
-#include "Clock.h"
 #include "CirclePath.h"
 #include "LinePath.h"
 #include "BasicShader.h"
 
-#include "UserCameraController.h"
 #include "PathCameraController.h"
 
 class MultipleObjects : public VisualProgram {
 public:
+    MultipleObjects(SDL_Window* window, bool renderParam);
     ~MultipleObjects();
-    void init(SDL_Window* window);
+    void init();
     void run();
-    
-private:
-    GLuint programID = 0;
-    SDL_Window* window = NULL;
-
-    Clock* clock;
-    Input* input;
-    Scene* scene;
-
-    CameraController* cameraController;
 };

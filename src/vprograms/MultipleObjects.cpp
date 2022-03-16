@@ -1,25 +1,15 @@
 #include "MultipleObjects.h"
 
+MultipleObjects::MultipleObjects(SDL_Window* window, bool renderParam) :
+    VisualProgram{ window, renderParam } {}
+
 MultipleObjects::~MultipleObjects() {
     // Deallocate program
     glDeleteProgram(programID);
 }
 
-void MultipleObjects::init(SDL_Window* window) {
-
-    this->window = window;
-
-    this->clock = new Clock();
-    this->input = new Input();
-
+void MultipleObjects::init() {
     this->input->setAbridge(SDLK_c);
-
-    this->cameraController = new UserCameraController(this->window, this->clock, this->input);
-
-    this->scene = new Scene(this->window, this->clock, this->input, this->cameraController);
-
-    // Enable text input
-    SDL_StartTextInput();
 }
 
 void MultipleObjects::run() {

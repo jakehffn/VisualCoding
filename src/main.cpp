@@ -10,7 +10,6 @@
 #include "consts.h"
 #include "VisualProgram.h"
 
-#include "OpenGLTutorial.h"
 #include "MultipleObjects.h"
 #include "MathVisualizer.h"
 
@@ -23,7 +22,7 @@ SDL_GLContext context;
 VisualProgram* program;
 
 // Initializes SDL, GLEW, then OpenGL
-bool init() {
+bool init(std::string programParam, bool renderParam) {
     bool success = true;
 
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
@@ -63,7 +62,13 @@ bool init() {
 					printf("SDL: Warning: Unable to set VSync!\nSDL Error: %s\n", SDL_GetError());
 				}
 
-				program->init(window);
+				if (programParam == "MultipleObjects") {
+					program = new MultipleObjects(window, renderParam);
+				}
+
+				if (programParam == "MathVisualizer") {
+					program = new MathVisualizer(window, renderParam);
+				}
 			}
 		}
 	}
@@ -81,40 +86,25 @@ void close() {
 	SDL_Quit();
 }
 
-void applyProgram(std::string input) {
-
-	if (input == "OpenGLTutorial") {
-		program = new OpenGLTutorial();
-	} 
-
-	if (input == "MultipleObjects") {
-		program = new MultipleObjects();
-	}
-
-	if (input == "MathVisualizer") {
-		program = new MathVisualizer();
-	}
-
-}
-
 // Parameters necessary for SDL_Main
 int main(int argv, char** args) {
 
-	std::string input;
+	std::string programParam;
 
 	if (argv == 1) {
-		input = std::string("OpenGLTutorial");
+		programParam = std::string("MultipleObjects");
 	} else {
-		input = std::string(args[1]);
+		programParam = std::string(args[1]);
 	}
 
-	applyProgram(input);
+	bool renderParam = true;
 
-	if(!init()) {
+	if(!init(programParam, renderParam)) {
 		
 		printf("Failed to initialize!\n");
 
 	} else {
+		program->init();
 		program->run();
 	}
 
