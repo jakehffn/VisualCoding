@@ -24,8 +24,8 @@ public:
     void run();
     
 private:
-    void createBlockArray(int width, int length);
-    void modifyBlockArray(int width, int length);
+    void createBlocks(int radius);
+    void modifyBlocks();
 
     float twoDimSine(float time, int xx, int yy);
     float threeDimSine(float time, int xx, int yy);

@@ -14,16 +14,11 @@ void MathVisualizer::init() {
 
 void MathVisualizer::run() {
 
-    int blockWidth = 100;
-    int blockHeight = 100;
+    createBlocks(20);
 
-    createBlockArray(blockWidth, blockHeight);
-
-    CirclePath* circlePath = new CirclePath(glm::vec3(0, 0, 0), 100, 30, 0.1);
+    CirclePath* circlePath = new CirclePath(glm::vec3(0, 0, 0), 150, 100, 0.1);
     PathCameraController* circleCamera = new PathCameraController(clock, circlePath);
     scene->addCameraController(circleCamera);
-
-    printf("\n\nBegin");
 
     // While application is running
     while(!input->quitProgram() && !input->isKeyDown(SDLK_ESCAPE)) {
@@ -37,21 +32,23 @@ void MathVisualizer::run() {
             scene->nextCameraController();
         } 
 
-        modifyBlockArray(blockWidth, blockHeight);
+        modifyBlocks();
         scene->render();
 
         // Update screen
         SDL_GL_SwapWindow(window);
 
         // TODO: Figure out how to have this done through base class
-        glReadPixels(0, 0, render_consts::SCREEN_WIDTH, render_consts::SCREEN_HEIGHT, GL_RGBA, GL_UNSIGNED_BYTE, this->frameBuffer);
-        fwrite(this->frameBuffer, sizeof(int)*render_consts::SCREEN_WIDTH*render_consts::SCREEN_HEIGHT, 1, ffmpeg);
+        if (this->renderParam) {
+            glReadPixels(0, 0, render_consts::SCREEN_WIDTH, render_consts::SCREEN_HEIGHT, GL_RGBA, GL_UNSIGNED_BYTE, this->frameBuffer);
+            fwrite(this->frameBuffer, sizeof(int)*render_consts::SCREEN_WIDTH*render_consts::SCREEN_HEIGHT, 1, ffmpeg);
+        }
     }
 
     SDL_StopTextInput();
 }
 
-void MathVisualizer::createBlockArray(int width, int length) {
+void MathVisualizer::createBlocks(int radius) {
 
     ShaderProgram* shaderProgram = new TopographicShader(-2, 2, glm::vec3(0.15, 0, 0.26), glm::vec3(.1, .1, 2));
     int shaderID = scene->addShaderProgram(shaderProgram);
@@ -59,37 +56,35 @@ void MathVisualizer::createBlockArray(int width, int length) {
     char objPath[] = "./src/objects/cube.obj";
     int objID = scene->addObject(objPath);
 
-    for (int xx = 0; xx < width; xx++) {
+    for (int xx = -radius; xx < radius; xx++) {
 
-        for (int yy = 0; yy < length; yy++) {
-            
-            float xPos = (xx - (float)(width)/2.0)*2.0;
-            float yPos = (yy - (float)(length)/2.0)*2.0;
+        for (int zz = -radius; zz < radius; zz++) {
 
-            scene->addInstance(objID, shaderID, glm::vec3(xPos, 0, yPos), glm::vec3(1, 2, 1));
+            if (glm::sqrt(glm::pow(xx, 2) + glm::pow(zz, 2)) < radius) {
+
+                float xPos = xx*2;
+                float zPos = zz*2;
+
+                scene->addInstance(objID, shaderID, glm::vec3(xPos, 0, zPos), glm::vec3(1, 2, 1));
+            }    
         }
     }
 }
 
-void MathVisualizer::modifyBlockArray(int width, int length) {
+void MathVisualizer::modifyBlocks() {
 
     float time = this->clock->getCumulativeTime();
 
-    for (int xx = 0; xx < width; xx++) {
+    for (int xx = 0; xx < scene->numInstances(); xx++) {
 
-        for (int yy = 0; yy < length; yy++) {
 
-            int pos = xx * width + yy;
+        Instance& currInstance = scene->getInstance(xx);
 
-            Instance& currInstance = scene->getInstance(pos);
+        glm::vec3 prevPos = currInstance.getPosition();
 
-            float yPos = threeDimTangent(time, xx - width/2, yy - length/2);
-            
-            glm::vec3 prev = currInstance.getPosition();
-            currInstance.setPosition(glm::vec3(prev.x, yPos, prev.z));
-        }
-
+        float yPos = threeDimTangent(time*0.2, prevPos.x, prevPos.z);
         
+        currInstance.setPosition(glm::vec3(prevPos.x, yPos, prevPos.z));
     }
 }
 
@@ -120,9 +115,9 @@ float MathVisualizer::threeDimSine(float time, int xx, int yy) {
 float MathVisualizer::threeDimTangent(float time, int xx, int yy) {
 
     time = time * 1.5;
-    float amplitude = 3;
+    float amplitude = 20;
     float phase = (xx*xx + yy*yy)*0.1;
-    float period = 3;
+    float period = .2;
 
     float yPos = amplitude*tan(period*sqrt(phase + time));
 

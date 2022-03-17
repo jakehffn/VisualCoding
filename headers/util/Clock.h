@@ -1,10 +1,14 @@
 #pragma once
 
+#include <iostream>
+
 #include <SDL.h>
+
+#include "consts.h"
 
 class Clock {
 public:
-    Clock();
+    Clock(bool constantTime);
     double getDeltaTime();
     double getCumulativeTime();
     double tick();
@@ -19,4 +23,6 @@ private:
     double cumulativeTime;
     double FPS = 0;
     double previousFPS = 0;
+
+    bool constantTime;
 };

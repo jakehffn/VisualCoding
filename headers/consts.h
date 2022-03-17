@@ -4,8 +4,11 @@
 
 namespace render_consts {
     //Screen dimension constants
-    static const int SCREEN_WIDTH = 1920;
-    static const int SCREEN_HEIGHT = 1080;
+    // static const int SCREEN_WIDTH = 1920;
+    // static const int SCREEN_HEIGHT = 1080;
+
+    static const int SCREEN_WIDTH = 1080;
+    static const int SCREEN_HEIGHT = 1920;
     
     // static const int SCREEN_WIDTH = 800;
     // static const int SCREEN_HEIGHT = 800;

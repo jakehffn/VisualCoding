@@ -1,5 +1,6 @@
 *.exe
 \.vscode
 \libs
+\output
 test.cpp
 todo

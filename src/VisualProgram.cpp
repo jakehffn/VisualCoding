@@ -2,14 +2,13 @@
 
 
 VisualProgram::VisualProgram(SDL_Window* window, bool renderParam) :
-    window{ window }, clock{ new Clock() }, input{ new Input() }, renderParam{ renderParam } {
+    window{ window }, clock{ new Clock(renderParam) }, input{ new Input() }, renderParam{ renderParam } {
 
         cameraController = new UserCameraController(this->window, this->clock, this->input);
         scene = new Scene(this->window, this->clock, this->input, this->cameraController);
         
         // Enable text input
         SDL_StartTextInput();
-
 
         if (this->renderParam) {
 
@@ -21,14 +20,14 @@ VisualProgram::VisualProgram(SDL_Window* window, bool renderParam) :
 
             std::ostringstream oss;
 
-            oss << "ffmpeg -r 60 -f rawvideo -pix_fmt rgba -s " << render_consts::SCREEN_WIDTH <<
-                "x" << render_consts::SCREEN_HEIGHT << 
-                " -i - -threads 0 -preset fast -y -pix_fmt yuv420p -loglevel 8 -crf 21 -vf vflip output\\" <<
+            oss << "ffmpeg -r " << render_consts::SCREEN_FPS << " -f rawvideo -pix_fmt rgba -s " << 
+                render_consts::SCREEN_WIDTH << "x" << render_consts::SCREEN_HEIGHT << 
+                " -i - -threads 4 -y -pix_fmt yuv420p -loglevel 8 -crf 8 -vf vflip output\\" <<
                 buf << ".mp4";
 
             std::string stringCmd = oss.str();
 
-            printf(stringCmd.c_str());
+            // printf(stringCmd.c_str());
 
             const char* cmd = stringCmd.c_str();
 
@@ -39,5 +38,8 @@ VisualProgram::VisualProgram(SDL_Window* window, bool renderParam) :
 }
 
 VisualProgram::~VisualProgram() {
-    _pclose(this->ffmpeg);
+
+    if ( this->renderParam ) {
+        _pclose(this->ffmpeg);
+    }   
 }

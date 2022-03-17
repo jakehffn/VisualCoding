@@ -53,6 +53,10 @@ Instance& Scene::getInstance(int instanceID) {
     return this->instances[instanceID];
 }
 
+int Scene::numInstances() {
+    return this->instances.size();
+}
+
 int Scene::addCameraController(CameraController* cameraController) {
     
 	this->cameraControllers.push_back(cameraController);

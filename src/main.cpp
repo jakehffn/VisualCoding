@@ -92,6 +92,7 @@ void close() {
 int main(int argv, char** args) {
 
 	std::string programParam;
+	bool renderParam;
 
 	if (argv == 1) {
 		programParam = std::string("MultipleObjects");
@@ -99,7 +100,12 @@ int main(int argv, char** args) {
 		programParam = std::string(args[1]);
 	}
 
-	bool renderParam = true;
+	if (argv <= 2) {
+		renderParam = true;
+	} else {
+		std::string arg2 = std::string(args[2]);
+		renderParam = (arg2 == "true");
+	}
 
 	if(!init(programParam, renderParam)) {
 		

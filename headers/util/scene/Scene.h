@@ -22,6 +22,7 @@ public:
     int addInstance(int objID, int shaderProgramID, glm::vec3 position, glm::vec3 scale);
     int addInstance(int objID, int shaderProgramID, glm::vec3 position);
     Instance& getInstance(int instanceID);
+    int numInstances();
 
     // Returns the position of added camera controller
     int addCameraController(CameraController* cameraController);
