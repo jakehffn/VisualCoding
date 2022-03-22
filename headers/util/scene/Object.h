@@ -10,15 +10,24 @@
 // Used to hold specific model vertex data
 class Object {
 public:
+    Object();
     Object(char* OBJPath);
+    Object(std::vector<glm::vec3> vertices);
 
     GLuint getVAO();
     int getNumVertices();
+    void updateVertices(std::vector<glm::vec3> vertices);
+
 
 private:
     GLuint VAO;
+    GLuint verticesBuffer;
+    GLuint uvsBuffer;
+    GLuint normalsBuffer;
 
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec2> uvs;
 	std::vector<glm::vec3> normals;
+
+    void bufferData();
 };

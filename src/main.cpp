@@ -95,13 +95,13 @@ int main(int argv, char** args) {
 	bool renderParam;
 
 	if (argv == 1) {
-		programParam = std::string("MultipleObjects");
+		programParam = std::string("MathVisualizer");
 	} else {
 		programParam = std::string(args[1]);
 	}
 
 	if (argv <= 2) {
-		renderParam = true;
+		renderParam = false;
 	} else {
 		std::string arg2 = std::string(args[2]);
 		renderParam = (arg2 == "true");

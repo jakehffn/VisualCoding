@@ -1,15 +1,49 @@
 #include "Object.h"
 
-Object::Object(char* OBJPath) {
+Object::Object() {
+
+    glGenVertexArrays(1, &(this->VAO));
+
+    glGenBuffers(1, &(this->verticesBuffer));
+    glGenBuffers(1, &(this->uvsBuffer));
+    glGenBuffers(1, &(this->normalsBuffer));
+}
+
+Object::Object(char* OBJPath) : Object::Object() {
 
 	bool res = loadOBJ(OBJPath, this->vertices, this->uvs, this->normals);
     
-    glGenVertexArrays(1, &(this->VAO));
+    this->bufferData();
+}
+
+Object::Object(std::vector<glm::vec3> vertices) : Object::Object() {
+
+    this->updateVertices(vertices);
+
+    this->bufferData();
+}
+
+void Object::updateVertices(std::vector<glm::vec3> vertices) {
+
+    this->vertices = vertices;
+
+    // TODO: Generate normals
+    // TODO: Generate uvs
+
+}
+
+GLuint Object::getVAO() {
+    return this->VAO;
+}
+
+int Object::getNumVertices() {
+    return this->vertices.size();
+}
+
+void Object::bufferData() {
 
     glBindVertexArray(this->VAO);
-
-    GLuint verticesBuffer;
-    glGenBuffers(1, &verticesBuffer);
+    
     glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
     glBufferData(GL_ARRAY_BUFFER, this->vertices.size()*sizeof(glm::vec3), &this->vertices[0], GL_STATIC_DRAW);
 
@@ -22,8 +56,6 @@ Object::Object(char* OBJPath) {
         (void*)0            // array buffer offset
     );
 
-    GLuint uvsBuffer;
-    glGenBuffers(1, &uvsBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, uvsBuffer);
     glBufferData(GL_ARRAY_BUFFER, this->uvs.size()*sizeof(glm::vec2), &this->uvs[0], GL_STATIC_DRAW);
 
@@ -36,8 +68,6 @@ Object::Object(char* OBJPath) {
         (void*)0                          // array buffer offset
     );
 
-    GLuint normalsBuffer;
-	glGenBuffers(1, &normalsBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
 	glBufferData(GL_ARRAY_BUFFER, this->normals.size()*sizeof(glm::vec3), &this->normals[0], GL_STATIC_DRAW);
 
@@ -55,12 +85,4 @@ Object::Object(char* OBJPath) {
     glEnableVertexAttribArray(2);
 
     glBindVertexArray(0);
-}
-
-GLuint Object::getVAO() {
-    return this->VAO;
-}
-
-int Object::getNumVertices() {
-    return this->vertices.size();
 }

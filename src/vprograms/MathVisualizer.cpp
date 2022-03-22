@@ -65,10 +65,12 @@ void MathVisualizer::createBlocks(int radius) {
                 float xPos = xx*2;
                 float zPos = zz*2;
 
-                scene->addInstance(objID, shaderID, glm::vec3(xPos, 0, zPos), glm::vec3(1, 2, 1));
+                scene->addInstance(objID, shaderID, glm::vec3(xPos, 0, zPos), glm::vec3(1, 1, 1));
             }    
         }
     }
+
+    printf("Num instances: %d\n", this->scene->numInstances());
 }
 
 void MathVisualizer::modifyBlocks() {
@@ -82,7 +84,7 @@ void MathVisualizer::modifyBlocks() {
 
         glm::vec3 prevPos = currInstance.getPosition();
 
-        float yPos = threeDimTangent(time*0.2, prevPos.x, prevPos.z);
+        float yPos = threeDimTangent(time, prevPos.x, prevPos.z);
         
         currInstance.setPosition(glm::vec3(prevPos.x, yPos, prevPos.z));
     }
@@ -115,9 +117,9 @@ float MathVisualizer::threeDimSine(float time, int xx, int yy) {
 float MathVisualizer::threeDimTangent(float time, int xx, int yy) {
 
     time = time * 1.5;
-    float amplitude = 20;
+    float amplitude = 10;
     float phase = (xx*xx + yy*yy)*0.1;
-    float period = .2;
+    float period = .5;
 
     float yPos = amplitude*tan(period*sqrt(phase + time));
 

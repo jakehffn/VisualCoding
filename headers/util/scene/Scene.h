@@ -15,7 +15,7 @@ public:
 
     // Returns ID for shader program (currently just vector pos)
     int addShaderProgram(ShaderProgram* shaderProgram);
-    // Returns ID for obj (currenlty just vector pos)
+    // Returns ID for obj (currently just vector pos)
     int addObject(char* objPath);
     // Returns ID for instance (currently just vector pos)
     int addInstance(int objID, int shaderProgramID, glm::vec3 position, glm::vec3 scale, glm::vec3 rotation);

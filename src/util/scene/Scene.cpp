@@ -11,7 +11,7 @@ Scene::Scene(SDL_Window* window, Clock* clock, Input* input, CameraController* c
         // glClearColor(0.0f, 0.4f, 0.4f, 0.0f);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-        glEnable(GL_CULL_FACE);
+        // glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
 }
