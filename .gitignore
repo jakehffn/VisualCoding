@@ -2,6 +2,6 @@
 \.vscode
 \libs
 \output
+\objects
 test.cpp
 todo
-\src\objects
